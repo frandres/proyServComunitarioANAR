@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Geolocalización de Yacimientos - Archivo Nacional de Arte Rupestre</title>
+        <style type="text/css">
+            html, body {
+                margin: 0;
+                padding: 0;
+                height: 100%;
+            }
+            #map_canvas {
+                height: 100%;
+                width: 100%;
+            }
+            #menu {
+                padding: 5px;
+                position: fixed;
+                bottom: 0px;
+                left: 45%;
+                height: 20px;
+                background-color: #181818;
+                opacity: .9;
+            }
+        </style>
+
+        <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+
+        <script type="text/javascript">
+            function initialize() {
+                // Inicializo el mapa
+                var myOptions = {
+                    zoom: 6,
+                    center: new google.maps.LatLng(6.500000, -66.976354),
+                    mapTypeControl: true,
+                    mapTypeControlOptions: {
+                        style: google.maps.MapTypeControlStyle.DROPDOWN_MENU
+                    },
+                    panControl: false,
+                    zoomControl: true,
+                    zoomControlOptions: {
+                        style: google.maps.ZoomControlStyle.SMALL
+                    },
+                    mapTypeId: google.maps.MapTypeId.HYBRID
+                };
+                var map = new google.maps.Map(document.getElementById('map_canvas'),myOptions);
+               
+                // Dibujo las estaciones 
+                var markers = {};
+                var infowindow = new google.maps.InfoWindow({
+                    content: 'Hello' 
+                });
+                 
+                var i = -1;
+                {% for yacimiento in yacimientos %}
+                    i++;
+                    markers[i] = new google.maps.Marker({
+                        position: new google.maps.LatLng({{yacimiento.latitud}},{{yacimiento.longitud}}),
+                        map: map,
+                        draggable: false,
+                        title: ' {{yacimiento.nombre}} ',
+                        animation: google.maps.Animation.DROP
+                    });
+                    google.maps.event.addListener(markers[i], 'click', function(){
+                        var content = '<h1>{{yacimiento.nombre}}</h1>'+
+                                      '<p>Latitud: {{yacimiento.latitud}}<br />'+
+                                      '   Longitud: {{yacimiento.longitud}}<br /></p>';
+                        infowindow.setContent(content);
+                        infowindow.open(map, this);
+                    });
+                {% endfor %}
+                                                
+            }
+            google.maps.event.addDomListener(window, 'load', initialize);
+        </script>
+    </head>
+<body>
+    <div id="map_canvas"></div>
+    <div id="menu">
+        <a href="http://localhost:8000/yacimientos">Yacimientos</a>
+        <a href="http://localhost:8000/admin">Administración</a>
+    </div>
+</body>
+</html>

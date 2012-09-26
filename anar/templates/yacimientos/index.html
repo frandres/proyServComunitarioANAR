@@ -1,0 +1,9 @@
+{% if yacimientos %}
+    <ul>
+    {% for yacimiento in yacimientos %}
+        <li><a href="/yacimientos/{{ yacimiento.id }}/">{{ yacimiento.nombre}}</a></li>
+    {% endfor%}
+    </ul>
+{% else %}    
+    <p>No hay yacimientos disponibles.</p>
+{% endif %}
