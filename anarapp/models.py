@@ -209,7 +209,6 @@ class TenenciaDeLaTierra(models.Model):
     tipoTenenciaDeLaTierra = models.IntegerField('Tenencia de la tierra', choices = OPCIONES_TENENCIA_ACTUAL_SUELO) 
 
 class Fotografia (MaterialApoyo):
-
     TIPO_FOTOGRAFIA = (
         (1, 'Aerea'),
         (2, 'No aerea'),
@@ -600,32 +599,6 @@ class Mortero(TipoManifestacion):
     ancho =  models.DecimalField('24.19 Ancho', max_digits=12, decimal_places=6)    
     pass
 
-class PosibleUbicacionCarasTrajabadas(models.Model): # Enumeration (N)
-
-    OPCIONES_UBICACION_CARA_TRABAJADA = (
-        (1, 'En toda la caverna'),
-        (2, 'En áreas específicas'),
-        (3, 'Sala Principal'),
-        (4, 'Otra sala'),
-        (5, 'Lago interior'),
-        (6, 'Claraboya'),
-        (7, 'Luminosidad'),
-    )
-
-    ubic = models.IntegerField(choices = OPCIONES_UBICACION_CARA_TRABAJADA)
-
-class  ManifestacionesEnCarasTrabajadas(models.Model):
-
-    OPCIONES_MANIFESTACIONES_EN_CARAS_TRABAJADAS = (
-        (0, 'Petroglifo'),
-        (1, 'Pintura Rupestre'),
-        (2, 'Amoladores'),
-        (3, 'Puntos Acoplados'),
-        (4, 'Cupulas'),
-    )
-
-    manif = models.IntegerField(choices = OPCIONES_MANIFESTACIONES_EN_CARAS_TRABAJADAS)
-
 # Diagrama de piedra
 
 class Piedra(models.Model):
@@ -634,7 +607,7 @@ class Piedra(models.Model):
     codigo = models.CharField('0. Codigo de la piedra', max_length=20)#, primary_key=True)        
     nombre = models.CharField('1. Nombre de la piedra', max_length=150)
     manifiestacionAsociada = models.CharField('1.1 Manifestaciones Asociadas', max_length=150)
-    nombreFiguras = models.CharField('2. Nombre Figuras',max_length=150)
+    nombreFiguras = models.CharField('2. Nombre de las figuras',max_length=150)
     estado= models.CharField('3. Estado',max_length=40)
     
     numeroCaras = models.IntegerField('Numero de Caras')
@@ -653,23 +626,19 @@ class Piedra(models.Model):
 
     revisoFicha = models.CharField('17a. Ficha rellena por', max_length=40)
 
-    OPCIONES_CONEXION_FIGURAS = (
-        (1, 'Presencia de una sola figura'),
-        (2, 'Menos del 10% interconectadas'),
-        (3, '50% interconectadas'),
-        (4, 'Mas del 80% interconectadas'),
-    )
 
-    conexionFiguras = models.IntegerField('11 Conexion Figuras', choices = OPCIONES_CONEXION_FIGURAS)
+    materialesApoyo = models.ManyToManyField(MaterialApoyo)
+    mecanismosObtencionInformacion = models.ManyToManyField(MecanismoObtencionInformacion)
 
+class TratamientoFotografia(models.Model):
+    
+    piedra = models.ForeignKey(Piedra)
     limpiezaCon = models.CharField('12.1 Limpieza con', max_length = 40)
     rellenoSurcos = models.CharField('12.2 Relleno de surcos con', max_length = 40)
     tratamientoDigital = models.CharField('12.3 Tratamiento digital', max_length = 40)
     programaVersion = models.CharField('12.4 Programa/versión', max_length = 40)
     otrosTratamientosFotografia = models.CharField('12.5 Otros tratamientos fotografía:', max_length = 150)
 
-    materialesApoyo = models.ManyToManyField(MaterialApoyo)
-    mecanismosObtencionInformacion = models.ManyToManyField(MecanismoObtencionInformacion)
 
 class CaraTrabajada(models.Model):
 
@@ -688,23 +657,47 @@ class CaraTrabajada(models.Model):
 
     OPCIONES_LUMINOSIDAD = (
 
-        (0, 'Fotico'),
-        (1, 'Escotico'),
+        (0, 'Fótico'),
+        (1, 'Escótico'),
 
     )
 
-    orientacionDeLaCara = models.IntegerField('6. Orientación de la cara', choices = OPCIONES_ORIENTACION_CARA_TRABAJADA)
+    orientacionDeLaCara = models.IntegerField('6. Orientación', choices = OPCIONES_ORIENTACION_CARA_TRABAJADA)
 
-    alto = models.DecimalField('7.1 Alto',max_digits=12, decimal_places=6)
-    ancho = models.DecimalField('7.2 Ancho',max_digits=12, decimal_places=6)
-    largo = models.DecimalField('7.3 Largo',max_digits=12, decimal_places=6)
+    OPCIONES_CONEXION_FIGURAS = (
+        (1, 'Presencia de una sola figura'),
+        (2, 'Menos del 10% interconectadas'),
+        (3, '50% interconectadas'),
+        (4, 'Mas del 80% interconectadas'),
+    )
+
+    conexionFiguras = models.IntegerField('11 Conexion Figuras', choices = OPCIONES_CONEXION_FIGURAS)
+
+    alto = models.DecimalField('7.1 Alto',max_digits=6, decimal_places=3)
+    ancho = models.DecimalField('7.2 Ancho',max_digits=6, decimal_places=3)
+    largo = models.DecimalField('7.3 Largo',max_digits=6, decimal_places=3)
     distanciaBocaPrincipal = models.DecimalField('8.3 Distancia Boca Principal',max_digits=12, decimal_places=6)    
-    altura = models.DecimalField('8.3.2 Altura',max_digits=12, decimal_places=6)   
+    altura = models.DecimalField('8.3.2 Altura',max_digits=6, decimal_places=3)   
     luminosidad = models.IntegerField('8.3.1 Luminosidad', choices = OPCIONES_LUMINOSIDAD) 
-    requiereAndamiaje = models.BooleanField()
+    requiereAndamiaje = models.BooleanField('¿Requiere andamiaje?')
 
-    manifestaciones = models.ManyToManyField(ManifestacionesEnCarasTrabajadas)
-    ubicacionCaracasTrabajadas = models.ManyToManyField(PosibleUbicacionCarasTrajabadas)
+    # Manifestaciones
+
+    tienePetroglifo = models.BooleanField('Petroglifo')
+    tienePinturaRupestre = models.BooleanField('Pintura Rupestre')
+    tieneAmoladores = models.BooleanField('Amoladores')
+    tienePuntosAcoplados = models.BooleanField('Puntos Acoplados')
+    tieneCupulas = models.BooleanField('Cupulas')
+
+    # Ubicacion
+
+    ubicadaEnTodaLaCaverna = models.BooleanField('En toda la caverna')
+    # ubicadaEnAreasEspecificas = models.BooleanField('Pintura Rupestre')
+    ubicadaEnSalaPrincipal = models.BooleanField('En sala principal')
+    ubicadaEnOtraSala = models.BooleanField('En otra sala')
+    ubicadaEnLagoInterior = models.BooleanField('En lago interior')
+    ubicadaEnClaraboya = models.BooleanField('En claraboya')
+    
     piedra = models.ForeignKey(Piedra)
 
 class ConjuntoFiguraPorTipo(models.Model):
@@ -722,11 +715,12 @@ class ConjuntoFiguraPorTipo(models.Model):
         (10, 'Bateas'),
     )
 
-    cantidad =  models.IntegerField('9.b Cantidad')
     seccion =   models.IntegerField('Seccion de la cara.')
     tipoFigura = models.IntegerField('9.a Tipo de figura',choices = OPCIONES_UBICACION_CARA_TRABAJADA)
+    cantidad =  models.IntegerField('9.b Cantidad')
+       
     descripcion = models.CharField('9.c Descripcion',max_length=150) 
-    posicion = models.CharField('9.c Posicion de las figuras',max_length=150) 
+    # posicion = models.CharField('9.c Posicion de las figuras',max_length=150) 
     cara = models.ForeignKey(CaraTrabajada)
 
 class RecursoMultimedia (MaterialApoyo):
@@ -837,3 +831,21 @@ class ReproduccionGraficaEscalaReducida(ReproduccionGrafica):
 
     tipoReproduccion = models.IntegerField('Tipo de reproduccion grafica de escala reducida', choices = TIPO_REPRODUCCION_GRAFICA_ESCALA_REDUCIDA)   
 
+class FotografiaPiedra (MaterialApoyo):
+    piedra = models.ForeignKey(Piedra)
+    TIPO_FOTOGRAFIA = (
+        (1, 'Aerea'),
+        (2, 'No aerea'),
+        (3, 'Satelital'),
+    )
+
+    fecha = models.DateField('13.1.1 Fecha')
+    fotografo  = models.CharField('13.2.3 Fotografo ', max_length=40)
+    institucion  = models.CharField('13.2.3 Institucion ', max_length=40)
+    # fotografia  = models.CharField('Fotografia', max_length=40)
+    numReferencia = models.IntegerField('13.1.4 Num Referencia')
+    numRollo = models.IntegerField('13.1.5 Num Rollo')
+    numMarcaNegativo = models.IntegerField('13.1.6 Num Marca Negativo')
+    esDeAnar = models.BooleanField('13.1.8 ¿Es de Anar?')
+    numCopiaAnar = models.IntegerField('13.1.8.1 Num Copia ANAR')
+    tipoFotografia = models.IntegerField('Tipo fotografia', choices = TIPO_FOTOGRAFIA)

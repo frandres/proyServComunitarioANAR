@@ -1,3 +1,6 @@
+-e git+git://github.com/Soaa-/django-nested-inlines.git#egg=django-nested-inlines
+psycopg2==2.4.5
+South
 Django==1.4.2
 django-ses==0.4.1
 django-registration==0.8
