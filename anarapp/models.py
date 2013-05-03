@@ -5,15 +5,12 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 
 # Create your models here.
 
-
 class MecanismoObtencionInformacion (models.Model):
     pass
 
+
 class ProspeccionSistematica (MecanismoObtencionInformacion):
-
-    def _unicode_(self):
-        return self.piedra
-
+    pass
 class ComunicacionPersonal (MecanismoObtencionInformacion):
 
     nombre = models.CharField('14.2.1 Nombre', max_length=40)
@@ -28,9 +25,7 @@ class ComunicacionPersonal (MecanismoObtencionInformacion):
     fecha = models.DateField('14.2.10 Fecha')
 
 class VerificadoEncampo (MecanismoObtencionInformacion):
-    
-    def _unicode_(self):
-        return self.piedra
+    pass
 
 
 class DestruccionPotencialSitio (models.Model):
@@ -626,9 +621,8 @@ class Piedra(models.Model):
 
     revisoFicha = models.CharField('17a. Ficha rellena por', max_length=40)
 
-
-    materialesApoyo = models.ManyToManyField(MaterialApoyo)
-    mecanismosObtencionInformacion = models.ManyToManyField(MecanismoObtencionInformacion)
+    # materialesApoyo = models.ManyToManyField(MaterialApoyo)
+    # mecanismosObtencionInformacion = models.ManyToManyField(MecanismoObtencionInformacion)
 
 class TratamientoFotografia(models.Model):
     
@@ -729,7 +723,7 @@ class RecursoMultimedia (MaterialApoyo):
     imagen = models.CharField(max_length=150) # models.ImageField()
 
 class PaginaWEB (MaterialApoyo):
-
+    piedra = models.ForeignKey(Piedra)
     direccionURL = models.URLField ('13.8 Página Web')
 
 class Grabacion (MaterialApoyo):
@@ -754,6 +748,17 @@ class Pelicula (Grabacion):
     def _unicode_(self):
         return self.titulo
 
+class VideoPiedra (Grabacion):
+    piedra = models.ForeignKey(Piedra)
+    def _unicode_(self):
+        return self.titulo
+
+class PeliculaPiedra (Grabacion):
+    piedra = models.ForeignKey(Piedra)
+    def _unicode_(self):
+        return self.titulo
+
+
 class MaterialAudiovisual (MaterialApoyo):
 
     formato = models.CharField('13.5.1 Formato', max_length=40)
@@ -761,6 +766,15 @@ class MaterialAudiovisual (MaterialApoyo):
 
 class Bibliografia (MaterialApoyo):
 
+    codigo = models.CharField('13.4.0 Codigo', max_length=40)
+    titulo = models.CharField('13.4.1 Titulo', max_length=40)
+    autor  = models.CharField('13.4.2 Autor ', max_length=40)
+    ano = models.IntegerField('13.4.3 Ano')
+    institucion  = models.CharField('13.4.2 Institucion ', max_length=40)
+    conDibujo = models.BooleanField()
+
+class BibliografiaPiedra (MaterialApoyo):
+    piedra = models.ForeignKey(Piedra)
     codigo = models.CharField('13.4.0 Codigo', max_length=40)
     titulo = models.CharField('13.4.1 Titulo', max_length=40)
     autor  = models.CharField('13.4.2 Autor ', max_length=40)
@@ -808,6 +822,29 @@ class ImagenReproduccionGrafica(models.Model):
 
     reproduccionGrafica = models.ForeignKey(ReproduccionGrafica)
 
+class ReproduccionGraficaEscalaNaturalPiedra(ReproduccionGrafica):
+    piedra = models.ForeignKey(Piedra)
+    TIPO_REPRODUCCION_GRAFICA_ESCALA_NATURAL = (
+        (1, 'Plana'),
+        (2, 'Frotage'),
+        (3, 'Calco'),
+        (4, 'Tridimensional'),
+        (5, 'Resina'),
+        (6, 'Yeso'),
+        (7, 'Papel de arroz'),
+    )
+
+    tipoReproduccion = models.IntegerField('Tipo de reproduccion grafica de escala natural', choices = TIPO_REPRODUCCION_GRAFICA_ESCALA_NATURAL)
+
+class ReproduccionGraficaEscalaReducidaPiedra(ReproduccionGrafica):
+    piedra = models.ForeignKey(Piedra)
+    TIPO_REPRODUCCION_GRAFICA_ESCALA_REDUCIDA = (
+        (1, 'Dibujo'),
+        (2, 'Matriz'),
+    )
+
+    tipoReproduccion = models.IntegerField('Tipo de reproduccion grafica de escala reducida', choices = TIPO_REPRODUCCION_GRAFICA_ESCALA_REDUCIDA)   
+
 class ReproduccionGraficaEscalaNatural(ReproduccionGrafica):
 
     TIPO_REPRODUCCION_GRAFICA_ESCALA_NATURAL = (
@@ -849,3 +886,25 @@ class FotografiaPiedra (MaterialApoyo):
     esDeAnar = models.BooleanField('13.1.8 ¿Es de Anar?')
     numCopiaAnar = models.IntegerField('13.1.8.1 Num Copia ANAR')
     tipoFotografia = models.IntegerField('Tipo fotografia', choices = TIPO_FOTOGRAFIA)
+
+class ProspeccionSistematicaPiedra (MecanismoObtencionInformacion):
+    piedra = models.ForeignKey(Piedra)
+
+
+class ComunicacionPersonalPiedra (MecanismoObtencionInformacion):
+
+    nombre = models.CharField('14.2.1 Nombre', max_length=40)
+    direccion = models.CharField('14.2.2 Direccoin', max_length=150)
+    telefono = models.CharField('14.2.3 Telefono/Fax', max_length=16)
+    telefonoCel = models.CharField('14.2.3 Telefono celular', max_length=16)
+    direccionEmail = models.EmailField('14.2.5 Correo electrónico')
+    paginaWeb = models.URLField('14.2.6 Pagina WEB')
+    twitter = models.CharField('14.2.7 Twitter', max_length=40)
+    nombreFacebook = models.CharField('14.2.8 Nombre de Perfil Facebook', max_length=40)
+    blog = models.URLField('14.2.9 Blog')
+    fecha = models.DateField('14.2.10 Fecha')
+
+    piedra = models.ForeignKey(Piedra)
+
+class VerificadoEnPiedra(MecanismoObtencionInformacion):
+    piedra = models.ForeignKey(Piedra)

@@ -1,6 +1,7 @@
 #coding: latin-1
 from nested_inlines.admin import NestedModelAdmin, NestedStackedInline, NestedTabularInline
-from anarapp.models import Yacimiento,Piedra,CaraTrabajada,ConjuntoFiguraPorTipo,TratamientoFotografia,FotografiaPiedra
+from anarapp.models import Yacimiento, Piedra,CaraTrabajada,ConjuntoFiguraPorTipo, TratamientoFotografia,FotografiaPiedra, ReproduccionGraficaEscalaNaturalPiedra, ReproduccionGraficaEscalaReducidaPiedra,BibliografiaPiedra
+
 from django.contrib import admin
 from forms import YacimientoForm
 class YacimientoAdmin(admin.ModelAdmin):
@@ -16,8 +17,20 @@ class YacimientoAdmin(admin.ModelAdmin):
    
 #     list_display = ('nombre','latitud','longitud')
 
+class BibliografiaPiedraInline(NestedTabularInline):
+    extra = 1
+    model =  BibliografiaPiedra
+
+class ReproduccionGraficaEscalaReducidaInlinePiedra(NestedTabularInline):
+    extra = 1
+    model =  ReproduccionGraficaEscalaReducidaPiedra
+
+class ReproduccionGraficaEscalaNaturalInlinePiedra(NestedTabularInline):
+    extra = 1
+    model =  ReproduccionGraficaEscalaNaturalPiedra
+        
 class FotografiaInline(NestedTabularInline):
-    extra = 0
+    extra = 1
     model =  FotografiaPiedra
 
 class TratamientoFotografiaInline(NestedTabularInline):
@@ -37,7 +50,7 @@ class CaraTrabajadaInline(NestedStackedInline):
 
 class PiedraAdmin (NestedModelAdmin):
     model = Piedra
-    inlines = [CaraTrabajadaInline, TratamientoFotografiaInline,FotografiaInline]
+    inlines = [CaraTrabajadaInline, TratamientoFotografiaInline,FotografiaInline,ReproduccionGraficaEscalaReducidaInlinePiedra,ReproduccionGraficaEscalaNaturalInlinePiedra,BibliografiaPiedraInline]
     # fields = ('inlines','codigo')
 
 admin.site.register(Yacimiento, YacimientoAdmin)
