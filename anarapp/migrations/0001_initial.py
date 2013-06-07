@@ -8,21 +8,21 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Adding model 'MecanismoObtencionInformacion'
-        db.create_table('anarapp_mecanismoobtencioninformacion', (
+        # Adding model 'MecObtInformacion'
+        db.create_table('anarapp_mecobtinformacion', (
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
         ))
-        db.send_create_signal('anarapp', ['MecanismoObtencionInformacion'])
+        db.send_create_signal('anarapp', ['MecObtInformacion'])
 
         # Adding model 'ProspeccionSistematica'
         db.create_table('anarapp_prospeccionsistematica', (
-            ('mecanismoobtencioninformacion_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['anarapp.MecanismoObtencionInformacion'], unique=True, primary_key=True)),
+            ('mecobtinformacion_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['anarapp.MecObtInformacion'], unique=True, primary_key=True)),
         ))
         db.send_create_signal('anarapp', ['ProspeccionSistematica'])
 
         # Adding model 'ComunicacionPersonal'
         db.create_table('anarapp_comunicacionpersonal', (
-            ('mecanismoobtencioninformacion_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['anarapp.MecanismoObtencionInformacion'], unique=True, primary_key=True)),
+            ('mecobtinformacion_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['anarapp.MecObtInformacion'], unique=True, primary_key=True)),
             ('nombre', self.gf('django.db.models.fields.CharField')(max_length=40)),
             ('direccion', self.gf('django.db.models.fields.CharField')(max_length=150)),
             ('telefono', self.gf('django.db.models.fields.CharField')(max_length=16)),
@@ -38,17 +38,17 @@ class Migration(SchemaMigration):
 
         # Adding model 'VerificadoEncampo'
         db.create_table('anarapp_verificadoencampo', (
-            ('mecanismoobtencioninformacion_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['anarapp.MecanismoObtencionInformacion'], unique=True, primary_key=True)),
+            ('mecobtinformacion_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['anarapp.MecObtInformacion'], unique=True, primary_key=True)),
         ))
         db.send_create_signal('anarapp', ['VerificadoEncampo'])
 
-        # Adding model 'DestruccionPotencialSitio'
-        db.create_table('anarapp_destruccionpotencialsitio', (
+        # Adding model 'DestPotencialSitio'
+        db.create_table('anarapp_destpotencialsitio', (
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('tipoModificacion', self.gf('django.db.models.fields.IntegerField')()),
             ('otrasCausasPosibleDestruccion', self.gf('django.db.models.fields.CharField')(max_length=150)),
         ))
-        db.send_create_signal('anarapp', ['DestruccionPotencialSitio'])
+        db.send_create_signal('anarapp', ['DestPotencialSitio'])
 
         # Adding model 'EstadoConservacion'
         db.create_table('anarapp_estadoconservacion', (
@@ -310,9 +310,9 @@ class Migration(SchemaMigration):
         db.create_table('anarapp_yacimiento_destruccionPotencialSitio', (
             ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
             ('yacimiento', models.ForeignKey(orm['anarapp.yacimiento'], null=False)),
-            ('destruccionpotencialsitio', models.ForeignKey(orm['anarapp.destruccionpotencialsitio'], null=False))
+            ('destpotencialsitio', models.ForeignKey(orm['anarapp.destpotencialsitio'], null=False))
         ))
-        db.create_unique('anarapp_yacimiento_destruccionPotencialSitio', ['yacimiento_id', 'destruccionpotencialsitio_id'])
+        db.create_unique('anarapp_yacimiento_destruccionPotencialSitio', ['yacimiento_id', 'destpotencialsitio_id'])
 
         # Adding M2M table for field manifestacionesAsociadas on 'Yacimiento'
         db.create_table('anarapp_yacimiento_manifestacionesAsociadas', (
@@ -334,9 +334,9 @@ class Migration(SchemaMigration):
         db.create_table('anarapp_yacimiento_mecanismosObtencionInformacion', (
             ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
             ('yacimiento', models.ForeignKey(orm['anarapp.yacimiento'], null=False)),
-            ('mecanismoobtencioninformacion', models.ForeignKey(orm['anarapp.mecanismoobtencioninformacion'], null=False))
+            ('mecobtinformacion', models.ForeignKey(orm['anarapp.mecobtinformacion'], null=False))
         ))
-        db.create_unique('anarapp_yacimiento_mecanismosObtencionInformacion', ['yacimiento_id', 'mecanismoobtencioninformacion_id'])
+        db.create_unique('anarapp_yacimiento_mecanismosObtencionInformacion', ['yacimiento_id', 'mecobtinformacion_id'])
 
         # Adding model 'CronologiaTentativa'
         db.create_table('anarapp_cronologiatentativa', (
@@ -387,11 +387,11 @@ class Migration(SchemaMigration):
         ))
         db.send_create_signal('anarapp', ['LocalidadYacimientoPoblado'])
 
-        # Adding model 'LocalidadYacimientoNoPoblado'
-        db.create_table('anarapp_localidadyacimientonopoblado', (
+        # Adding model 'LocYacNoPoblado'
+        db.create_table('anarapp_locyacnopoblado', (
             ('localidadyacimiento_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['anarapp.LocalidadYacimiento'], unique=True, primary_key=True)),
         ))
-        db.send_create_signal('anarapp', ['LocalidadYacimientoNoPoblado'])
+        db.send_create_signal('anarapp', ['LocYacNoPoblado'])
 
         # Adding model 'TipoManifestacion'
         db.create_table('anarapp_tipomanifestacion', (
@@ -451,46 +451,46 @@ class Migration(SchemaMigration):
         ))
         db.send_create_signal('anarapp', ['ImpresionDeManos'])
 
-        # Adding model 'CaracteristicasDeLaPintura'
-        db.create_table('anarapp_caracteristicasdelapintura', (
+        # Adding model 'CaracDeLaPintura'
+        db.create_table('anarapp_caracdelapintura', (
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('figuraRellena', self.gf('django.db.models.fields.BooleanField')(default=False)),
             ('figurasSuperPuestas', self.gf('django.db.models.fields.BooleanField')(default=False)),
             ('colorBase', self.gf('django.db.models.fields.CharField')(max_length=150)),
         ))
-        db.send_create_signal('anarapp', ['CaracteristicasDeLaPintura'])
+        db.send_create_signal('anarapp', ['CaracDeLaPintura'])
 
-        # Adding M2M table for field tecnicas on 'CaracteristicasDeLaPintura'
-        db.create_table('anarapp_caracteristicasdelapintura_tecnicas', (
+        # Adding M2M table for field tecnicas on 'CaracDeLaPintura'
+        db.create_table('anarapp_caracdelapintura_tecnicas', (
             ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
-            ('caracteristicasdelapintura', models.ForeignKey(orm['anarapp.caracteristicasdelapintura'], null=False)),
+            ('caracdelapintura', models.ForeignKey(orm['anarapp.caracdelapintura'], null=False)),
             ('tecnicapinturarupestre', models.ForeignKey(orm['anarapp.tecnicapinturarupestre'], null=False))
         ))
-        db.create_unique('anarapp_caracteristicasdelapintura_tecnicas', ['caracteristicasdelapintura_id', 'tecnicapinturarupestre_id'])
+        db.create_unique('anarapp_caracdelapintura_tecnicas', ['caracdelapintura_id', 'tecnicapinturarupestre_id'])
 
-        # Adding M2M table for field impresionDeManos on 'CaracteristicasDeLaPintura'
-        db.create_table('anarapp_caracteristicasdelapintura_impresionDeManos', (
+        # Adding M2M table for field impresionDeManos on 'CaracDeLaPintura'
+        db.create_table('anarapp_caracdelapintura_impresionDeManos', (
             ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
-            ('caracteristicasdelapintura', models.ForeignKey(orm['anarapp.caracteristicasdelapintura'], null=False)),
+            ('caracdelapintura', models.ForeignKey(orm['anarapp.caracdelapintura'], null=False)),
             ('impresiondemanos', models.ForeignKey(orm['anarapp.impresiondemanos'], null=False))
         ))
-        db.create_unique('anarapp_caracteristicasdelapintura_impresionDeManos', ['caracteristicasdelapintura_id', 'impresiondemanos_id'])
+        db.create_unique('anarapp_caracdelapintura_impresionDeManos', ['caracdelapintura_id', 'impresiondemanos_id'])
 
-        # Adding M2M table for field colores on 'CaracteristicasDeLaPintura'
-        db.create_table('anarapp_caracteristicasdelapintura_colores', (
+        # Adding M2M table for field colores on 'CaracDeLaPintura'
+        db.create_table('anarapp_caracdelapintura_colores', (
             ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
-            ('caracteristicasdelapintura', models.ForeignKey(orm['anarapp.caracteristicasdelapintura'], null=False)),
+            ('caracdelapintura', models.ForeignKey(orm['anarapp.caracdelapintura'], null=False)),
             ('color', models.ForeignKey(orm['anarapp.color'], null=False))
         ))
-        db.create_unique('anarapp_caracteristicasdelapintura_colores', ['caracteristicasdelapintura_id', 'color_id'])
+        db.create_unique('anarapp_caracdelapintura_colores', ['caracdelapintura_id', 'color_id'])
 
-        # Adding M2M table for field tipoDeLineas on 'CaracteristicasDeLaPintura'
-        db.create_table('anarapp_caracteristicasdelapintura_tipoDeLineas', (
+        # Adding M2M table for field tipoDeLineas on 'CaracDeLaPintura'
+        db.create_table('anarapp_caracdelapintura_tipoDeLineas', (
             ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
-            ('caracteristicasdelapintura', models.ForeignKey(orm['anarapp.caracteristicasdelapintura'], null=False)),
+            ('caracdelapintura', models.ForeignKey(orm['anarapp.caracdelapintura'], null=False)),
             ('tipolinea', models.ForeignKey(orm['anarapp.tipolinea'], null=False))
         ))
-        db.create_unique('anarapp_caracteristicasdelapintura_tipoDeLineas', ['caracteristicasdelapintura_id', 'tipolinea_id'])
+        db.create_unique('anarapp_caracdelapintura_tipoDeLineas', ['caracdelapintura_id', 'tipolinea_id'])
 
         # Adding model 'Positivo'
         db.create_table('anarapp_positivo', (
@@ -501,7 +501,7 @@ class Migration(SchemaMigration):
             ('planoUnRojo', self.gf('django.db.models.fields.IntegerField')()),
             ('planoDosRojo', self.gf('django.db.models.fields.IntegerField')()),
             ('planoTresRojo', self.gf('django.db.models.fields.IntegerField')()),
-            ('caracteristicasPinturaRupestre', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['anarapp.CaracteristicasDeLaPintura'])),
+            ('caracteristicasPinturaRupestre', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['anarapp.CaracDeLaPintura'])),
         ))
         db.send_create_signal('anarapp', ['Positivo'])
 
@@ -514,7 +514,7 @@ class Migration(SchemaMigration):
             ('planoUnRojo', self.gf('django.db.models.fields.IntegerField')()),
             ('planoDosRojo', self.gf('django.db.models.fields.IntegerField')()),
             ('planoTresRojo', self.gf('django.db.models.fields.IntegerField')()),
-            ('caracteristicasPinturaRupestre', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['anarapp.CaracteristicasDeLaPintura'])),
+            ('caracteristicasPinturaRupestre', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['anarapp.CaracDeLaPintura'])),
         ))
         db.send_create_signal('anarapp', ['Negativo'])
 
@@ -529,9 +529,9 @@ class Migration(SchemaMigration):
         db.create_table('anarapp_pinturarupestre_caracteristicas', (
             ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
             ('pinturarupestre', models.ForeignKey(orm['anarapp.pinturarupestre'], null=False)),
-            ('caracteristicasdelapintura', models.ForeignKey(orm['anarapp.caracteristicasdelapintura'], null=False))
+            ('caracdelapintura', models.ForeignKey(orm['anarapp.caracdelapintura'], null=False))
         ))
-        db.create_unique('anarapp_pinturarupestre_caracteristicas', ['pinturarupestre_id', 'caracteristicasdelapintura_id'])
+        db.create_unique('anarapp_pinturarupestre_caracteristicas', ['pinturarupestre_id', 'caracdelapintura_id'])
 
         # Adding model 'TecnicaPetroglifo'
         db.create_table('anarapp_tecnicapetroglifo', (
@@ -541,12 +541,12 @@ class Migration(SchemaMigration):
         ))
         db.send_create_signal('anarapp', ['TecnicaPetroglifo'])
 
-        # Adding model 'CaracteristicasDePetroglifo'
-        db.create_table('anarapp_caracteristicasdepetroglifo', (
+        # Adding model 'CaracDePetroglifo'
+        db.create_table('anarapp_caracdepetroglifo', (
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('caracteristicasSurcoGrabado', self.gf('django.db.models.fields.IntegerField')()),
         ))
-        db.send_create_signal('anarapp', ['CaracteristicasDePetroglifo'])
+        db.send_create_signal('anarapp', ['CaracDePetroglifo'])
 
         # Adding model 'Petroglifo'
         db.create_table('anarapp_petroglifo', (
@@ -571,9 +571,9 @@ class Migration(SchemaMigration):
         db.create_table('anarapp_petroglifo_caracteristicasPetroglifo', (
             ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
             ('petroglifo', models.ForeignKey(orm['anarapp.petroglifo'], null=False)),
-            ('caracteristicasdepetroglifo', models.ForeignKey(orm['anarapp.caracteristicasdepetroglifo'], null=False))
+            ('caracdepetroglifo', models.ForeignKey(orm['anarapp.caracdepetroglifo'], null=False))
         ))
-        db.create_unique('anarapp_petroglifo_caracteristicasPetroglifo', ['petroglifo_id', 'caracteristicasdepetroglifo_id'])
+        db.create_unique('anarapp_petroglifo_caracteristicasPetroglifo', ['petroglifo_id', 'caracdepetroglifo_id'])
 
         # Adding model 'MicroPetroglifo'
         db.create_table('anarapp_micropetroglifo', (
@@ -670,20 +670,6 @@ class Migration(SchemaMigration):
         ))
         db.send_create_signal('anarapp', ['Mortero'])
 
-        # Adding model 'PosibleUbicacionCarasTrajabadas'
-        db.create_table('anarapp_posibleubicacioncarastrajabadas', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('ubic', self.gf('django.db.models.fields.IntegerField')()),
-        ))
-        db.send_create_signal('anarapp', ['PosibleUbicacionCarasTrajabadas'])
-
-        # Adding model 'ManifestacionesEnCarasTrabajadas'
-        db.create_table('anarapp_manifestacionesencarastrabajadas', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('manif', self.gf('django.db.models.fields.IntegerField')()),
-        ))
-        db.send_create_signal('anarapp', ['ManifestacionesEnCarasTrabajadas'])
-
         # Adding model 'Piedra'
         db.create_table('anarapp_piedra', (
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
@@ -705,76 +691,57 @@ class Migration(SchemaMigration):
             ('supervisorFicha', self.gf('django.db.models.fields.CharField')(max_length=40)),
             ('fechaSupervisionFicha', self.gf('django.db.models.fields.DateField')()),
             ('revisoFicha', self.gf('django.db.models.fields.CharField')(max_length=40)),
-            ('conexionFiguras', self.gf('django.db.models.fields.IntegerField')()),
+        ))
+        db.send_create_signal('anarapp', ['Piedra'])
+
+        # Adding model 'TratFotografia'
+        db.create_table('anarapp_tratfotografia', (
+            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('piedra', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['anarapp.Piedra'])),
             ('limpiezaCon', self.gf('django.db.models.fields.CharField')(max_length=40)),
             ('rellenoSurcos', self.gf('django.db.models.fields.CharField')(max_length=40)),
             ('tratamientoDigital', self.gf('django.db.models.fields.CharField')(max_length=40)),
             ('programaVersion', self.gf('django.db.models.fields.CharField')(max_length=40)),
             ('otrosTratamientosFotografia', self.gf('django.db.models.fields.CharField')(max_length=150)),
         ))
-        db.send_create_signal('anarapp', ['Piedra'])
-
-        # Adding M2M table for field materialesApoyo on 'Piedra'
-        db.create_table('anarapp_piedra_materialesApoyo', (
-            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
-            ('piedra', models.ForeignKey(orm['anarapp.piedra'], null=False)),
-            ('materialapoyo', models.ForeignKey(orm['anarapp.materialapoyo'], null=False))
-        ))
-        db.create_unique('anarapp_piedra_materialesApoyo', ['piedra_id', 'materialapoyo_id'])
-
-        # Adding M2M table for field mecanismosObtencionInformacion on 'Piedra'
-        db.create_table('anarapp_piedra_mecanismosObtencionInformacion', (
-            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
-            ('piedra', models.ForeignKey(orm['anarapp.piedra'], null=False)),
-            ('mecanismoobtencioninformacion', models.ForeignKey(orm['anarapp.mecanismoobtencioninformacion'], null=False))
-        ))
-        db.create_unique('anarapp_piedra_mecanismosObtencionInformacion', ['piedra_id', 'mecanismoobtencioninformacion_id'])
+        db.send_create_signal('anarapp', ['TratFotografia'])
 
         # Adding model 'CaraTrabajada'
         db.create_table('anarapp_caratrabajada', (
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('orientacionDeLaCara', self.gf('django.db.models.fields.IntegerField')()),
-            ('alto', self.gf('django.db.models.fields.DecimalField')(max_digits=12, decimal_places=6)),
-            ('ancho', self.gf('django.db.models.fields.DecimalField')(max_digits=12, decimal_places=6)),
-            ('largo', self.gf('django.db.models.fields.DecimalField')(max_digits=12, decimal_places=6)),
+            ('conexionFiguras', self.gf('django.db.models.fields.IntegerField')()),
+            ('alto', self.gf('django.db.models.fields.DecimalField')(max_digits=6, decimal_places=3)),
+            ('ancho', self.gf('django.db.models.fields.DecimalField')(max_digits=6, decimal_places=3)),
+            ('largo', self.gf('django.db.models.fields.DecimalField')(max_digits=6, decimal_places=3)),
             ('distanciaBocaPrincipal', self.gf('django.db.models.fields.DecimalField')(max_digits=12, decimal_places=6)),
-            ('altura', self.gf('django.db.models.fields.DecimalField')(max_digits=12, decimal_places=6)),
+            ('altura', self.gf('django.db.models.fields.DecimalField')(max_digits=6, decimal_places=3)),
             ('luminosidad', self.gf('django.db.models.fields.IntegerField')()),
             ('requiereAndamiaje', self.gf('django.db.models.fields.BooleanField')(default=False)),
             ('tienePetroglifo', self.gf('django.db.models.fields.BooleanField')(default=False)),
             ('tienePinturaRupestre', self.gf('django.db.models.fields.BooleanField')(default=False)),
             ('tieneAmoladores', self.gf('django.db.models.fields.BooleanField')(default=False)),
+            ('tienePuntosAcoplados', self.gf('django.db.models.fields.BooleanField')(default=False)),
+            ('tieneCupulas', self.gf('django.db.models.fields.BooleanField')(default=False)),
+            ('ubicadaEnTodaLaCaverna', self.gf('django.db.models.fields.BooleanField')(default=False)),
+            ('ubicadaEnSalaPrincipal', self.gf('django.db.models.fields.BooleanField')(default=False)),
+            ('ubicadaEnOtraSala', self.gf('django.db.models.fields.BooleanField')(default=False)),
+            ('ubicadaEnLagoInterior', self.gf('django.db.models.fields.BooleanField')(default=False)),
+            ('ubicadaEnClaraboya', self.gf('django.db.models.fields.BooleanField')(default=False)),
             ('piedra', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['anarapp.Piedra'])),
         ))
         db.send_create_signal('anarapp', ['CaraTrabajada'])
 
-        # Adding M2M table for field manifestaciones on 'CaraTrabajada'
-        db.create_table('anarapp_caratrabajada_manifestaciones', (
-            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
-            ('caratrabajada', models.ForeignKey(orm['anarapp.caratrabajada'], null=False)),
-            ('manifestacionesencarastrabajadas', models.ForeignKey(orm['anarapp.manifestacionesencarastrabajadas'], null=False))
-        ))
-        db.create_unique('anarapp_caratrabajada_manifestaciones', ['caratrabajada_id', 'manifestacionesencarastrabajadas_id'])
-
-        # Adding M2M table for field ubicacionCaracasTrabajadas on 'CaraTrabajada'
-        db.create_table('anarapp_caratrabajada_ubicacionCaracasTrabajadas', (
-            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
-            ('caratrabajada', models.ForeignKey(orm['anarapp.caratrabajada'], null=False)),
-            ('posibleubicacioncarastrajabadas', models.ForeignKey(orm['anarapp.posibleubicacioncarastrajabadas'], null=False))
-        ))
-        db.create_unique('anarapp_caratrabajada_ubicacionCaracasTrabajadas', ['caratrabajada_id', 'posibleubicacioncarastrajabadas_id'])
-
-        # Adding model 'ConjuntoFiguraPorTipo'
-        db.create_table('anarapp_conjuntofiguraportipo', (
+        # Adding model 'ConjFiguraPorTipo'
+        db.create_table('anarapp_conjfiguraportipo', (
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('cantidad', self.gf('django.db.models.fields.IntegerField')()),
             ('seccion', self.gf('django.db.models.fields.IntegerField')()),
             ('tipoFigura', self.gf('django.db.models.fields.IntegerField')()),
+            ('cantidad', self.gf('django.db.models.fields.IntegerField')()),
             ('descripcion', self.gf('django.db.models.fields.CharField')(max_length=150)),
-            ('posicion', self.gf('django.db.models.fields.CharField')(max_length=150)),
             ('cara', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['anarapp.CaraTrabajada'])),
         ))
-        db.send_create_signal('anarapp', ['ConjuntoFiguraPorTipo'])
+        db.send_create_signal('anarapp', ['ConjFiguraPorTipo'])
 
         # Adding model 'RecursoMultimedia'
         db.create_table('anarapp_recursomultimedia', (
@@ -787,6 +754,7 @@ class Migration(SchemaMigration):
         # Adding model 'PaginaWEB'
         db.create_table('anarapp_paginaweb', (
             ('materialapoyo_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['anarapp.MaterialApoyo'], unique=True, primary_key=True)),
+            ('piedra', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['anarapp.Piedra'])),
             ('direccionURL', self.gf('django.db.models.fields.URLField')(max_length=200)),
         ))
         db.send_create_signal('anarapp', ['PaginaWEB'])
@@ -818,13 +786,27 @@ class Migration(SchemaMigration):
         ))
         db.send_create_signal('anarapp', ['Pelicula'])
 
-        # Adding model 'MaterialAudiovisual'
-        db.create_table('anarapp_materialaudiovisual', (
+        # Adding model 'VideoPiedra'
+        db.create_table('anarapp_videopiedra', (
+            ('grabacion_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['anarapp.Grabacion'], unique=True, primary_key=True)),
+            ('piedra', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['anarapp.Piedra'])),
+        ))
+        db.send_create_signal('anarapp', ['VideoPiedra'])
+
+        # Adding model 'PeliculaPiedra'
+        db.create_table('anarapp_peliculapiedra', (
+            ('grabacion_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['anarapp.Grabacion'], unique=True, primary_key=True)),
+            ('piedra', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['anarapp.Piedra'])),
+        ))
+        db.send_create_signal('anarapp', ['PeliculaPiedra'])
+
+        # Adding model 'MatAudiovisual'
+        db.create_table('anarapp_mataudiovisual', (
             ('materialapoyo_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['anarapp.MaterialApoyo'], unique=True, primary_key=True)),
             ('formato', self.gf('django.db.models.fields.CharField')(max_length=40)),
             ('imagen', self.gf('django.db.models.fields.CharField')(max_length=40)),
         ))
-        db.send_create_signal('anarapp', ['MaterialAudiovisual'])
+        db.send_create_signal('anarapp', ['MatAudiovisual'])
 
         # Adding model 'Bibliografia'
         db.create_table('anarapp_bibliografia', (
@@ -837,6 +819,19 @@ class Migration(SchemaMigration):
             ('conDibujo', self.gf('django.db.models.fields.BooleanField')(default=False)),
         ))
         db.send_create_signal('anarapp', ['Bibliografia'])
+
+        # Adding model 'BibPiedra'
+        db.create_table('anarapp_bibpiedra', (
+            ('materialapoyo_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['anarapp.MaterialApoyo'], unique=True, primary_key=True)),
+            ('piedra', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['anarapp.Piedra'])),
+            ('codigo', self.gf('django.db.models.fields.CharField')(max_length=40)),
+            ('titulo', self.gf('django.db.models.fields.CharField')(max_length=40)),
+            ('autor', self.gf('django.db.models.fields.CharField')(max_length=40)),
+            ('ano', self.gf('django.db.models.fields.IntegerField')()),
+            ('institucion', self.gf('django.db.models.fields.CharField')(max_length=40)),
+            ('conDibujo', self.gf('django.db.models.fields.BooleanField')(default=False)),
+        ))
+        db.send_create_signal('anarapp', ['BibPiedra'])
 
         # Adding model 'MapaBibliografia'
         db.create_table('anarapp_mapabibliografia', (
@@ -855,40 +850,103 @@ class Migration(SchemaMigration):
         ))
         db.send_create_signal('anarapp', ['FotografiaBibliografia'])
 
-        # Adding model 'ReproduccionGrafica'
-        db.create_table('anarapp_reproducciongrafica', (
+        # Adding model 'ReproGraf'
+        db.create_table('anarapp_reprograf', (
             ('materialapoyo_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['anarapp.MaterialApoyo'], unique=True, primary_key=True)),
             ('numPiezas', self.gf('django.db.models.fields.IntegerField')()),
             ('instituto', self.gf('django.db.models.fields.CharField')(max_length=40)),
             ('persona', self.gf('django.db.models.fields.CharField')(max_length=40)),
         ))
-        db.send_create_signal('anarapp', ['ReproduccionGrafica'])
+        db.send_create_signal('anarapp', ['ReproGraf'])
 
-        # Adding model 'ImagenReproduccionGrafica'
-        db.create_table('anarapp_imagenreproducciongrafica', (
+        # Adding model 'ImagenReproGraf'
+        db.create_table('anarapp_imagenreprograf', (
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('reproduccionGrafica', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['anarapp.ReproduccionGrafica'])),
+            ('reproduccionGrafica', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['anarapp.ReproGraf'])),
         ))
-        db.send_create_signal('anarapp', ['ImagenReproduccionGrafica'])
+        db.send_create_signal('anarapp', ['ImagenReproGraf'])
 
-        # Adding model 'ReproduccionGraficaEscalaNatural'
-        db.create_table('anarapp_reproducciongraficaescalanatural', (
-            ('reproducciongrafica_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['anarapp.ReproduccionGrafica'], unique=True, primary_key=True)),
+        # Adding model 'ReproGrafEscalaNaturalPiedra'
+        db.create_table('anarapp_reprografescalanaturalpiedra', (
+            ('reprograf_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['anarapp.ReproGraf'], unique=True, primary_key=True)),
+            ('piedra', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['anarapp.Piedra'])),
             ('tipoReproduccion', self.gf('django.db.models.fields.IntegerField')()),
         ))
-        db.send_create_signal('anarapp', ['ReproduccionGraficaEscalaNatural'])
+        db.send_create_signal('anarapp', ['ReproGrafEscalaNaturalPiedra'])
 
-        # Adding model 'ReproduccionGraficaEscalaReducida'
-        db.create_table('anarapp_reproducciongraficaescalareducida', (
-            ('reproducciongrafica_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['anarapp.ReproduccionGrafica'], unique=True, primary_key=True)),
+        # Adding model 'ReproGrafEscalaRedPied'
+        db.create_table('anarapp_reprografescalaredpied', (
+            ('reprograf_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['anarapp.ReproGraf'], unique=True, primary_key=True)),
+            ('piedra', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['anarapp.Piedra'])),
             ('tipoReproduccion', self.gf('django.db.models.fields.IntegerField')()),
         ))
-        db.send_create_signal('anarapp', ['ReproduccionGraficaEscalaReducida'])
+        db.send_create_signal('anarapp', ['ReproGrafEscalaRedPied'])
+
+        # Adding model 'ReproGrafEscalaNatural'
+        db.create_table('anarapp_reprografescalanatural', (
+            ('reprograf_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['anarapp.ReproGraf'], unique=True, primary_key=True)),
+            ('tipoReproduccion', self.gf('django.db.models.fields.IntegerField')()),
+        ))
+        db.send_create_signal('anarapp', ['ReproGrafEscalaNatural'])
+
+        # Adding model 'ReproGrafEscalaRed'
+        db.create_table('anarapp_reprografescalared', (
+            ('reprograf_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['anarapp.ReproGraf'], unique=True, primary_key=True)),
+            ('tipoReproduccion', self.gf('django.db.models.fields.IntegerField')()),
+        ))
+        db.send_create_signal('anarapp', ['ReproGrafEscalaRed'])
+
+        # Adding model 'FotografiaPiedra'
+        db.create_table('anarapp_fotografiapiedra', (
+            ('materialapoyo_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['anarapp.MaterialApoyo'], unique=True, primary_key=True)),
+            ('piedra', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['anarapp.Piedra'])),
+            ('fecha', self.gf('django.db.models.fields.DateField')()),
+            ('fotografo', self.gf('django.db.models.fields.CharField')(max_length=40)),
+            ('institucion', self.gf('django.db.models.fields.CharField')(max_length=40)),
+            ('numReferencia', self.gf('django.db.models.fields.IntegerField')()),
+            ('numRollo', self.gf('django.db.models.fields.IntegerField')()),
+            ('numMarcaNegativo', self.gf('django.db.models.fields.IntegerField')()),
+            ('esDeAnar', self.gf('django.db.models.fields.BooleanField')(default=False)),
+            ('numCopiaAnar', self.gf('django.db.models.fields.IntegerField')()),
+            ('tipoFotografia', self.gf('django.db.models.fields.IntegerField')()),
+        ))
+        db.send_create_signal('anarapp', ['FotografiaPiedra'])
+
+        # Adding model 'ProspSistPiedra'
+        db.create_table('anarapp_prospsistpiedra', (
+            ('mecobtinformacion_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['anarapp.MecObtInformacion'], unique=True, primary_key=True)),
+            ('piedra', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['anarapp.Piedra'])),
+        ))
+        db.send_create_signal('anarapp', ['ProspSistPiedra'])
+
+        # Adding model 'ComunicacionPersonalPiedra'
+        db.create_table('anarapp_comunicacionpersonalpiedra', (
+            ('mecobtinformacion_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['anarapp.MecObtInformacion'], unique=True, primary_key=True)),
+            ('nombre', self.gf('django.db.models.fields.CharField')(max_length=40)),
+            ('direccion', self.gf('django.db.models.fields.CharField')(max_length=150)),
+            ('telefono', self.gf('django.db.models.fields.CharField')(max_length=16)),
+            ('telefonoCel', self.gf('django.db.models.fields.CharField')(max_length=16)),
+            ('direccionEmail', self.gf('django.db.models.fields.EmailField')(max_length=75)),
+            ('paginaWeb', self.gf('django.db.models.fields.URLField')(max_length=200)),
+            ('twitter', self.gf('django.db.models.fields.CharField')(max_length=40)),
+            ('nombreFacebook', self.gf('django.db.models.fields.CharField')(max_length=40)),
+            ('blog', self.gf('django.db.models.fields.URLField')(max_length=200)),
+            ('fecha', self.gf('django.db.models.fields.DateField')()),
+            ('piedra', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['anarapp.Piedra'])),
+        ))
+        db.send_create_signal('anarapp', ['ComunicacionPersonalPiedra'])
+
+        # Adding model 'VerificadoEnPiedra'
+        db.create_table('anarapp_verificadoenpiedra', (
+            ('mecobtinformacion_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['anarapp.MecObtInformacion'], unique=True, primary_key=True)),
+            ('piedra', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['anarapp.Piedra'])),
+        ))
+        db.send_create_signal('anarapp', ['VerificadoEnPiedra'])
 
 
     def backwards(self, orm):
-        # Deleting model 'MecanismoObtencionInformacion'
-        db.delete_table('anarapp_mecanismoobtencioninformacion')
+        # Deleting model 'MecObtInformacion'
+        db.delete_table('anarapp_mecobtinformacion')
 
         # Deleting model 'ProspeccionSistematica'
         db.delete_table('anarapp_prospeccionsistematica')
@@ -899,8 +957,8 @@ class Migration(SchemaMigration):
         # Deleting model 'VerificadoEncampo'
         db.delete_table('anarapp_verificadoencampo')
 
-        # Deleting model 'DestruccionPotencialSitio'
-        db.delete_table('anarapp_destruccionpotencialsitio')
+        # Deleting model 'DestPotencialSitio'
+        db.delete_table('anarapp_destpotencialsitio')
 
         # Deleting model 'EstadoConservacion'
         db.delete_table('anarapp_estadoconservacion')
@@ -1016,8 +1074,8 @@ class Migration(SchemaMigration):
         # Deleting model 'LocalidadYacimientoPoblado'
         db.delete_table('anarapp_localidadyacimientopoblado')
 
-        # Deleting model 'LocalidadYacimientoNoPoblado'
-        db.delete_table('anarapp_localidadyacimientonopoblado')
+        # Deleting model 'LocYacNoPoblado'
+        db.delete_table('anarapp_locyacnopoblado')
 
         # Deleting model 'TipoManifestacion'
         db.delete_table('anarapp_tipomanifestacion')
@@ -1043,20 +1101,20 @@ class Migration(SchemaMigration):
         # Deleting model 'ImpresionDeManos'
         db.delete_table('anarapp_impresiondemanos')
 
-        # Deleting model 'CaracteristicasDeLaPintura'
-        db.delete_table('anarapp_caracteristicasdelapintura')
+        # Deleting model 'CaracDeLaPintura'
+        db.delete_table('anarapp_caracdelapintura')
 
-        # Removing M2M table for field tecnicas on 'CaracteristicasDeLaPintura'
-        db.delete_table('anarapp_caracteristicasdelapintura_tecnicas')
+        # Removing M2M table for field tecnicas on 'CaracDeLaPintura'
+        db.delete_table('anarapp_caracdelapintura_tecnicas')
 
-        # Removing M2M table for field impresionDeManos on 'CaracteristicasDeLaPintura'
-        db.delete_table('anarapp_caracteristicasdelapintura_impresionDeManos')
+        # Removing M2M table for field impresionDeManos on 'CaracDeLaPintura'
+        db.delete_table('anarapp_caracdelapintura_impresionDeManos')
 
-        # Removing M2M table for field colores on 'CaracteristicasDeLaPintura'
-        db.delete_table('anarapp_caracteristicasdelapintura_colores')
+        # Removing M2M table for field colores on 'CaracDeLaPintura'
+        db.delete_table('anarapp_caracdelapintura_colores')
 
-        # Removing M2M table for field tipoDeLineas on 'CaracteristicasDeLaPintura'
-        db.delete_table('anarapp_caracteristicasdelapintura_tipoDeLineas')
+        # Removing M2M table for field tipoDeLineas on 'CaracDeLaPintura'
+        db.delete_table('anarapp_caracdelapintura_tipoDeLineas')
 
         # Deleting model 'Positivo'
         db.delete_table('anarapp_positivo')
@@ -1073,8 +1131,8 @@ class Migration(SchemaMigration):
         # Deleting model 'TecnicaPetroglifo'
         db.delete_table('anarapp_tecnicapetroglifo')
 
-        # Deleting model 'CaracteristicasDePetroglifo'
-        db.delete_table('anarapp_caracteristicasdepetroglifo')
+        # Deleting model 'CaracDePetroglifo'
+        db.delete_table('anarapp_caracdepetroglifo')
 
         # Deleting model 'Petroglifo'
         db.delete_table('anarapp_petroglifo')
@@ -1121,32 +1179,17 @@ class Migration(SchemaMigration):
         # Deleting model 'Mortero'
         db.delete_table('anarapp_mortero')
 
-        # Deleting model 'PosibleUbicacionCarasTrajabadas'
-        db.delete_table('anarapp_posibleubicacioncarastrajabadas')
-
-        # Deleting model 'ManifestacionesEnCarasTrabajadas'
-        db.delete_table('anarapp_manifestacionesencarastrabajadas')
-
         # Deleting model 'Piedra'
         db.delete_table('anarapp_piedra')
 
-        # Removing M2M table for field materialesApoyo on 'Piedra'
-        db.delete_table('anarapp_piedra_materialesApoyo')
-
-        # Removing M2M table for field mecanismosObtencionInformacion on 'Piedra'
-        db.delete_table('anarapp_piedra_mecanismosObtencionInformacion')
+        # Deleting model 'TratFotografia'
+        db.delete_table('anarapp_tratfotografia')
 
         # Deleting model 'CaraTrabajada'
         db.delete_table('anarapp_caratrabajada')
 
-        # Removing M2M table for field manifestaciones on 'CaraTrabajada'
-        db.delete_table('anarapp_caratrabajada_manifestaciones')
-
-        # Removing M2M table for field ubicacionCaracasTrabajadas on 'CaraTrabajada'
-        db.delete_table('anarapp_caratrabajada_ubicacionCaracasTrabajadas')
-
-        # Deleting model 'ConjuntoFiguraPorTipo'
-        db.delete_table('anarapp_conjuntofiguraportipo')
+        # Deleting model 'ConjFiguraPorTipo'
+        db.delete_table('anarapp_conjfiguraportipo')
 
         # Deleting model 'RecursoMultimedia'
         db.delete_table('anarapp_recursomultimedia')
@@ -1163,11 +1206,20 @@ class Migration(SchemaMigration):
         # Deleting model 'Pelicula'
         db.delete_table('anarapp_pelicula')
 
-        # Deleting model 'MaterialAudiovisual'
-        db.delete_table('anarapp_materialaudiovisual')
+        # Deleting model 'VideoPiedra'
+        db.delete_table('anarapp_videopiedra')
+
+        # Deleting model 'PeliculaPiedra'
+        db.delete_table('anarapp_peliculapiedra')
+
+        # Deleting model 'MatAudiovisual'
+        db.delete_table('anarapp_mataudiovisual')
 
         # Deleting model 'Bibliografia'
         db.delete_table('anarapp_bibliografia')
+
+        # Deleting model 'BibPiedra'
+        db.delete_table('anarapp_bibpiedra')
 
         # Deleting model 'MapaBibliografia'
         db.delete_table('anarapp_mapabibliografia')
@@ -1175,17 +1227,35 @@ class Migration(SchemaMigration):
         # Deleting model 'FotografiaBibliografia'
         db.delete_table('anarapp_fotografiabibliografia')
 
-        # Deleting model 'ReproduccionGrafica'
-        db.delete_table('anarapp_reproducciongrafica')
+        # Deleting model 'ReproGraf'
+        db.delete_table('anarapp_reprograf')
 
-        # Deleting model 'ImagenReproduccionGrafica'
-        db.delete_table('anarapp_imagenreproducciongrafica')
+        # Deleting model 'ImagenReproGraf'
+        db.delete_table('anarapp_imagenreprograf')
 
-        # Deleting model 'ReproduccionGraficaEscalaNatural'
-        db.delete_table('anarapp_reproducciongraficaescalanatural')
+        # Deleting model 'ReproGrafEscalaNaturalPiedra'
+        db.delete_table('anarapp_reprografescalanaturalpiedra')
 
-        # Deleting model 'ReproduccionGraficaEscalaReducida'
-        db.delete_table('anarapp_reproducciongraficaescalareducida')
+        # Deleting model 'ReproGrafEscalaRedPied'
+        db.delete_table('anarapp_reprografescalaredpied')
+
+        # Deleting model 'ReproGrafEscalaNatural'
+        db.delete_table('anarapp_reprografescalanatural')
+
+        # Deleting model 'ReproGrafEscalaRed'
+        db.delete_table('anarapp_reprografescalared')
+
+        # Deleting model 'FotografiaPiedra'
+        db.delete_table('anarapp_fotografiapiedra')
+
+        # Deleting model 'ProspSistPiedra'
+        db.delete_table('anarapp_prospsistpiedra')
+
+        # Deleting model 'ComunicacionPersonalPiedra'
+        db.delete_table('anarapp_comunicacionpersonalpiedra')
+
+        # Deleting model 'VerificadoEnPiedra'
+        db.delete_table('anarapp_verificadoenpiedra')
 
 
     models = {
@@ -1212,8 +1282,19 @@ class Migration(SchemaMigration):
             'materialapoyo_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['anarapp.MaterialApoyo']", 'unique': 'True', 'primary_key': 'True'}),
             'titulo': ('django.db.models.fields.CharField', [], {'max_length': '40'})
         },
-        'anarapp.caracteristicasdelapintura': {
-            'Meta': {'object_name': 'CaracteristicasDeLaPintura'},
+        'anarapp.bibpiedra': {
+            'Meta': {'object_name': 'BibPiedra', '_ormbases': ['anarapp.MaterialApoyo']},
+            'ano': ('django.db.models.fields.IntegerField', [], {}),
+            'autor': ('django.db.models.fields.CharField', [], {'max_length': '40'}),
+            'codigo': ('django.db.models.fields.CharField', [], {'max_length': '40'}),
+            'conDibujo': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'institucion': ('django.db.models.fields.CharField', [], {'max_length': '40'}),
+            'materialapoyo_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['anarapp.MaterialApoyo']", 'unique': 'True', 'primary_key': 'True'}),
+            'piedra': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['anarapp.Piedra']"}),
+            'titulo': ('django.db.models.fields.CharField', [], {'max_length': '40'})
+        },
+        'anarapp.caracdelapintura': {
+            'Meta': {'object_name': 'CaracDeLaPintura'},
             'colorBase': ('django.db.models.fields.CharField', [], {'max_length': '150'}),
             'colores': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['anarapp.Color']", 'symmetrical': 'False'}),
             'figuraRellena': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
@@ -1223,28 +1304,34 @@ class Migration(SchemaMigration):
             'tecnicas': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['anarapp.TecnicaPinturaRupestre']", 'symmetrical': 'False'}),
             'tipoDeLineas': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['anarapp.TipoLinea']", 'symmetrical': 'False'})
         },
-        'anarapp.caracteristicasdepetroglifo': {
-            'Meta': {'object_name': 'CaracteristicasDePetroglifo'},
+        'anarapp.caracdepetroglifo': {
+            'Meta': {'object_name': 'CaracDePetroglifo'},
             'caracteristicasSurcoGrabado': ('django.db.models.fields.IntegerField', [], {}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'})
         },
         'anarapp.caratrabajada': {
             'Meta': {'object_name': 'CaraTrabajada'},
-            'alto': ('django.db.models.fields.DecimalField', [], {'max_digits': '12', 'decimal_places': '6'}),
-            'altura': ('django.db.models.fields.DecimalField', [], {'max_digits': '12', 'decimal_places': '6'}),
-            'ancho': ('django.db.models.fields.DecimalField', [], {'max_digits': '12', 'decimal_places': '6'}),
+            'alto': ('django.db.models.fields.DecimalField', [], {'max_digits': '6', 'decimal_places': '3'}),
+            'altura': ('django.db.models.fields.DecimalField', [], {'max_digits': '6', 'decimal_places': '3'}),
+            'ancho': ('django.db.models.fields.DecimalField', [], {'max_digits': '6', 'decimal_places': '3'}),
+            'conexionFiguras': ('django.db.models.fields.IntegerField', [], {}),
             'distanciaBocaPrincipal': ('django.db.models.fields.DecimalField', [], {'max_digits': '12', 'decimal_places': '6'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'largo': ('django.db.models.fields.DecimalField', [], {'max_digits': '12', 'decimal_places': '6'}),
+            'largo': ('django.db.models.fields.DecimalField', [], {'max_digits': '6', 'decimal_places': '3'}),
             'luminosidad': ('django.db.models.fields.IntegerField', [], {}),
-            'manifestaciones': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['anarapp.ManifestacionesEnCarasTrabajadas']", 'symmetrical': 'False'}),
             'orientacionDeLaCara': ('django.db.models.fields.IntegerField', [], {}),
             'piedra': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['anarapp.Piedra']"}),
             'requiereAndamiaje': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'tieneAmoladores': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'tieneCupulas': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'tienePetroglifo': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'tienePinturaRupestre': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'ubicacionCaracasTrabajadas': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['anarapp.PosibleUbicacionCarasTrajabadas']", 'symmetrical': 'False'})
+            'tienePuntosAcoplados': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'ubicadaEnClaraboya': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'ubicadaEnLagoInterior': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'ubicadaEnOtraSala': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'ubicadaEnSalaPrincipal': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'ubicadaEnTodaLaCaverna': ('django.db.models.fields.BooleanField', [], {'default': 'False'})
         },
         'anarapp.cerromiticonatural': {
             'Meta': {'object_name': 'CerroMiticoNatural', '_ormbases': ['anarapp.TipoManifestacion']},
@@ -1262,12 +1349,12 @@ class Migration(SchemaMigration):
             'parametroY': ('django.db.models.fields.CharField', [], {'max_length': '20'})
         },
         'anarapp.comunicacionpersonal': {
-            'Meta': {'object_name': 'ComunicacionPersonal', '_ormbases': ['anarapp.MecanismoObtencionInformacion']},
+            'Meta': {'object_name': 'ComunicacionPersonal', '_ormbases': ['anarapp.MecObtInformacion']},
             'blog': ('django.db.models.fields.URLField', [], {'max_length': '200'}),
             'direccion': ('django.db.models.fields.CharField', [], {'max_length': '150'}),
             'direccionEmail': ('django.db.models.fields.EmailField', [], {'max_length': '75'}),
             'fecha': ('django.db.models.fields.DateField', [], {}),
-            'mecanismoobtencioninformacion_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['anarapp.MecanismoObtencionInformacion']", 'unique': 'True', 'primary_key': 'True'}),
+            'mecobtinformacion_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['anarapp.MecObtInformacion']", 'unique': 'True', 'primary_key': 'True'}),
             'nombre': ('django.db.models.fields.CharField', [], {'max_length': '40'}),
             'nombreFacebook': ('django.db.models.fields.CharField', [], {'max_length': '40'}),
             'paginaWeb': ('django.db.models.fields.URLField', [], {'max_length': '200'}),
@@ -1275,13 +1362,27 @@ class Migration(SchemaMigration):
             'telefonoCel': ('django.db.models.fields.CharField', [], {'max_length': '16'}),
             'twitter': ('django.db.models.fields.CharField', [], {'max_length': '40'})
         },
-        'anarapp.conjuntofiguraportipo': {
-            'Meta': {'object_name': 'ConjuntoFiguraPorTipo'},
+        'anarapp.comunicacionpersonalpiedra': {
+            'Meta': {'object_name': 'ComunicacionPersonalPiedra', '_ormbases': ['anarapp.MecObtInformacion']},
+            'blog': ('django.db.models.fields.URLField', [], {'max_length': '200'}),
+            'direccion': ('django.db.models.fields.CharField', [], {'max_length': '150'}),
+            'direccionEmail': ('django.db.models.fields.EmailField', [], {'max_length': '75'}),
+            'fecha': ('django.db.models.fields.DateField', [], {}),
+            'mecobtinformacion_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['anarapp.MecObtInformacion']", 'unique': 'True', 'primary_key': 'True'}),
+            'nombre': ('django.db.models.fields.CharField', [], {'max_length': '40'}),
+            'nombreFacebook': ('django.db.models.fields.CharField', [], {'max_length': '40'}),
+            'paginaWeb': ('django.db.models.fields.URLField', [], {'max_length': '200'}),
+            'piedra': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['anarapp.Piedra']"}),
+            'telefono': ('django.db.models.fields.CharField', [], {'max_length': '16'}),
+            'telefonoCel': ('django.db.models.fields.CharField', [], {'max_length': '16'}),
+            'twitter': ('django.db.models.fields.CharField', [], {'max_length': '40'})
+        },
+        'anarapp.conjfiguraportipo': {
+            'Meta': {'object_name': 'ConjFiguraPorTipo'},
             'cantidad': ('django.db.models.fields.IntegerField', [], {}),
             'cara': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['anarapp.CaraTrabajada']"}),
             'descripcion': ('django.db.models.fields.CharField', [], {'max_length': '150'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'posicion': ('django.db.models.fields.CharField', [], {'max_length': '150'}),
             'seccion': ('django.db.models.fields.IntegerField', [], {}),
             'tipoFigura': ('django.db.models.fields.IntegerField', [], {})
         },
@@ -1309,8 +1410,8 @@ class Migration(SchemaMigration):
             'largo': ('django.db.models.fields.DecimalField', [], {'max_digits': '12', 'decimal_places': '6'}),
             'tipomanifestacion_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['anarapp.TipoManifestacion']", 'unique': 'True', 'primary_key': 'True'})
         },
-        'anarapp.destruccionpotencialsitio': {
-            'Meta': {'object_name': 'DestruccionPotencialSitio'},
+        'anarapp.destpotencialsitio': {
+            'Meta': {'object_name': 'DestPotencialSitio'},
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'otrasCausasPosibleDestruccion': ('django.db.models.fields.CharField', [], {'max_length': '150'}),
             'tipoModificacion': ('django.db.models.fields.IntegerField', [], {})
@@ -1345,6 +1446,20 @@ class Migration(SchemaMigration):
             'bibliografia': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['anarapp.Bibliografia']"}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'tipo': ('django.db.models.fields.IntegerField', [], {})
+        },
+        'anarapp.fotografiapiedra': {
+            'Meta': {'object_name': 'FotografiaPiedra', '_ormbases': ['anarapp.MaterialApoyo']},
+            'esDeAnar': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'fecha': ('django.db.models.fields.DateField', [], {}),
+            'fotografo': ('django.db.models.fields.CharField', [], {'max_length': '40'}),
+            'institucion': ('django.db.models.fields.CharField', [], {'max_length': '40'}),
+            'materialapoyo_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['anarapp.MaterialApoyo']", 'unique': 'True', 'primary_key': 'True'}),
+            'numCopiaAnar': ('django.db.models.fields.IntegerField', [], {}),
+            'numMarcaNegativo': ('django.db.models.fields.IntegerField', [], {}),
+            'numReferencia': ('django.db.models.fields.IntegerField', [], {}),
+            'numRollo': ('django.db.models.fields.IntegerField', [], {}),
+            'piedra': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['anarapp.Piedra']"}),
+            'tipoFotografia': ('django.db.models.fields.IntegerField', [], {})
         },
         'anarapp.geoglifo': {
             'Meta': {'object_name': 'Geoglifo', '_ormbases': ['anarapp.TipoManifestacion']},
@@ -1384,10 +1499,10 @@ class Migration(SchemaMigration):
             'Meta': {'object_name': 'Hueso', '_ormbases': ['anarapp.Material']},
             'material_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['anarapp.Material']", 'unique': 'True', 'primary_key': 'True'})
         },
-        'anarapp.imagenreproducciongrafica': {
-            'Meta': {'object_name': 'ImagenReproduccionGrafica'},
+        'anarapp.imagenreprograf': {
+            'Meta': {'object_name': 'ImagenReproGraf'},
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'reproduccionGrafica': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['anarapp.ReproduccionGrafica']"})
+            'reproduccionGrafica': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['anarapp.ReproGraf']"})
         },
         'anarapp.impresiondemanos': {
             'Meta': {'object_name': 'ImpresionDeManos'},
@@ -1408,14 +1523,14 @@ class Migration(SchemaMigration):
             'nombreLocalidad': ('django.db.models.fields.CharField', [], {'max_length': '150'}),
             'yacimiento': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['anarapp.Yacimiento']"})
         },
-        'anarapp.localidadyacimientonopoblado': {
-            'Meta': {'object_name': 'LocalidadYacimientoNoPoblado', '_ormbases': ['anarapp.LocalidadYacimiento']},
-            'localidadyacimiento_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['anarapp.LocalidadYacimiento']", 'unique': 'True', 'primary_key': 'True'})
-        },
         'anarapp.localidadyacimientopoblado': {
             'Meta': {'object_name': 'LocalidadYacimientoPoblado', '_ormbases': ['anarapp.LocalidadYacimiento']},
             'localidadyacimiento_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['anarapp.LocalidadYacimiento']", 'unique': 'True', 'primary_key': 'True'}),
             'tipoCentroPoblado': ('django.db.models.fields.IntegerField', [], {})
+        },
+        'anarapp.locyacnopoblado': {
+            'Meta': {'object_name': 'LocYacNoPoblado', '_ormbases': ['anarapp.LocalidadYacimiento']},
+            'localidadyacimiento_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['anarapp.LocalidadYacimiento']", 'unique': 'True', 'primary_key': 'True'})
         },
         'anarapp.manifestacionesasociadas': {
             'Meta': {'object_name': 'ManifestacionesAsociadas'},
@@ -1423,17 +1538,18 @@ class Migration(SchemaMigration):
             'manifestacionAsociada': ('django.db.models.fields.IntegerField', [], {}),
             'otros': ('django.db.models.fields.CharField', [], {'max_length': '150'})
         },
-        'anarapp.manifestacionesencarastrabajadas': {
-            'Meta': {'object_name': 'ManifestacionesEnCarasTrabajadas'},
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'manif': ('django.db.models.fields.IntegerField', [], {})
-        },
         'anarapp.mapabibliografia': {
             'Meta': {'object_name': 'MapaBibliografia'},
             'bibliografia': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['anarapp.Bibliografia']"}),
             'descripcion': ('django.db.models.fields.CharField', [], {'max_length': '40'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'tipoMapa': ('django.db.models.fields.IntegerField', [], {})
+        },
+        'anarapp.mataudiovisual': {
+            'Meta': {'object_name': 'MatAudiovisual', '_ormbases': ['anarapp.MaterialApoyo']},
+            'formato': ('django.db.models.fields.CharField', [], {'max_length': '40'}),
+            'imagen': ('django.db.models.fields.CharField', [], {'max_length': '40'}),
+            'materialapoyo_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['anarapp.MaterialApoyo']", 'unique': 'True', 'primary_key': 'True'})
         },
         'anarapp.material': {
             'Meta': {'object_name': 'Material'},
@@ -1443,14 +1559,8 @@ class Migration(SchemaMigration):
             'Meta': {'object_name': 'MaterialApoyo'},
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'})
         },
-        'anarapp.materialaudiovisual': {
-            'Meta': {'object_name': 'MaterialAudiovisual', '_ormbases': ['anarapp.MaterialApoyo']},
-            'formato': ('django.db.models.fields.CharField', [], {'max_length': '40'}),
-            'imagen': ('django.db.models.fields.CharField', [], {'max_length': '40'}),
-            'materialapoyo_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['anarapp.MaterialApoyo']", 'unique': 'True', 'primary_key': 'True'})
-        },
-        'anarapp.mecanismoobtencioninformacion': {
-            'Meta': {'object_name': 'MecanismoObtencionInformacion'},
+        'anarapp.mecobtinformacion': {
+            'Meta': {'object_name': 'MecObtInformacion'},
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'})
         },
         'anarapp.menhir': {
@@ -1492,7 +1602,7 @@ class Migration(SchemaMigration):
         },
         'anarapp.negativo': {
             'Meta': {'object_name': 'Negativo', '_ormbases': ['anarapp.ImpresionDeManos']},
-            'caracteristicasPinturaRupestre': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['anarapp.CaracteristicasDeLaPintura']"}),
+            'caracteristicasPinturaRupestre': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['anarapp.CaracDeLaPintura']"}),
             'impresiondemanos_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['anarapp.ImpresionDeManos']", 'unique': 'True', 'primary_key': 'True'}),
             'planoAmarillo': ('django.db.models.fields.IntegerField', [], {}),
             'planoBlanco': ('django.db.models.fields.IntegerField', [], {}),
@@ -1516,17 +1626,23 @@ class Migration(SchemaMigration):
         'anarapp.paginaweb': {
             'Meta': {'object_name': 'PaginaWEB', '_ormbases': ['anarapp.MaterialApoyo']},
             'direccionURL': ('django.db.models.fields.URLField', [], {'max_length': '200'}),
-            'materialapoyo_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['anarapp.MaterialApoyo']", 'unique': 'True', 'primary_key': 'True'})
+            'materialapoyo_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['anarapp.MaterialApoyo']", 'unique': 'True', 'primary_key': 'True'}),
+            'piedra': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['anarapp.Piedra']"})
         },
         'anarapp.pelicula': {
             'Meta': {'object_name': 'Pelicula', '_ormbases': ['anarapp.Grabacion']},
             'grabacion_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['anarapp.Grabacion']", 'unique': 'True', 'primary_key': 'True'})
         },
+        'anarapp.peliculapiedra': {
+            'Meta': {'object_name': 'PeliculaPiedra', '_ormbases': ['anarapp.Grabacion']},
+            'grabacion_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['anarapp.Grabacion']", 'unique': 'True', 'primary_key': 'True'}),
+            'piedra': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['anarapp.Piedra']"})
+        },
         'anarapp.petroglifo': {
             'Meta': {'object_name': 'Petroglifo', '_ormbases': ['anarapp.TipoManifestacion']},
             'anchoMaximo': ('django.db.models.fields.DecimalField', [], {'max_digits': '12', 'decimal_places': '6'}),
             'anchoMinimo': ('django.db.models.fields.DecimalField', [], {'max_digits': '12', 'decimal_places': '6'}),
-            'caracteristicasPetroglifo': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['anarapp.CaracteristicasDePetroglifo']", 'symmetrical': 'False'}),
+            'caracteristicasPetroglifo': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['anarapp.CaracDePetroglifo']", 'symmetrical': 'False'}),
             'pintado': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'profundidadMaxima': ('django.db.models.fields.DecimalField', [], {'max_digits': '12', 'decimal_places': '6'}),
             'profundidadMinima': ('django.db.models.fields.DecimalField', [], {'max_digits': '12', 'decimal_places': '6'}),
@@ -1539,28 +1655,20 @@ class Migration(SchemaMigration):
             'anchoMaximo': ('django.db.models.fields.DecimalField', [], {'max_digits': '12', 'decimal_places': '6'}),
             'autorFicha': ('django.db.models.fields.CharField', [], {'max_length': '40'}),
             'codigo': ('django.db.models.fields.CharField', [], {'max_length': '20'}),
-            'conexionFiguras': ('django.db.models.fields.IntegerField', [], {}),
             'estado': ('django.db.models.fields.CharField', [], {'max_length': '40'}),
             'fechaEscrituraFicha': ('django.db.models.fields.DateField', [], {}),
             'fechaSupervisionFicha': ('django.db.models.fields.DateField', [], {}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'largoMaximo': ('django.db.models.fields.DecimalField', [], {'max_digits': '12', 'decimal_places': '6'}),
-            'limpiezaCon': ('django.db.models.fields.CharField', [], {'max_length': '40'}),
             'manifiestacionAsociada': ('django.db.models.fields.CharField', [], {'max_length': '150'}),
-            'materialesApoyo': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['anarapp.MaterialApoyo']", 'symmetrical': 'False'}),
-            'mecanismosObtencionInformacion': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['anarapp.MecanismoObtencionInformacion']", 'symmetrical': 'False'}),
             'nombre': ('django.db.models.fields.CharField', [], {'max_length': '150'}),
             'nombreFiguras': ('django.db.models.fields.CharField', [], {'max_length': '150'}),
             'numeroCaras': ('django.db.models.fields.IntegerField', [], {}),
             'numeroCarasTrajabadas': ('django.db.models.fields.IntegerField', [], {}),
             'observaciones': ('django.db.models.fields.CharField', [], {'max_length': '150'}),
-            'otrosTratamientosFotografia': ('django.db.models.fields.CharField', [], {'max_length': '150'}),
             'otrosValoresDeLaPiedra': ('django.db.models.fields.CharField', [], {'max_length': '150'}),
-            'programaVersion': ('django.db.models.fields.CharField', [], {'max_length': '40'}),
-            'rellenoSurcos': ('django.db.models.fields.CharField', [], {'max_length': '40'}),
             'revisoFicha': ('django.db.models.fields.CharField', [], {'max_length': '40'}),
             'supervisorFicha': ('django.db.models.fields.CharField', [], {'max_length': '40'}),
-            'tratamientoDigital': ('django.db.models.fields.CharField', [], {'max_length': '40'}),
             'yacimiento': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['anarapp.Yacimiento']"})
         },
         'anarapp.piedriamiticanatural': {
@@ -1573,18 +1681,13 @@ class Migration(SchemaMigration):
         },
         'anarapp.pinturarupestre': {
             'Meta': {'object_name': 'PinturaRupestre', '_ormbases': ['anarapp.TipoManifestacion']},
-            'caracteristicas': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['anarapp.CaracteristicasDeLaPintura']", 'symmetrical': 'False'}),
+            'caracteristicas': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['anarapp.CaracDeLaPintura']", 'symmetrical': 'False'}),
             'descripcion': ('django.db.models.fields.CharField', [], {'max_length': '150'}),
             'tipomanifestacion_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['anarapp.TipoManifestacion']", 'unique': 'True', 'primary_key': 'True'})
         },
-        'anarapp.posibleubicacioncarastrajabadas': {
-            'Meta': {'object_name': 'PosibleUbicacionCarasTrajabadas'},
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'ubic': ('django.db.models.fields.IntegerField', [], {})
-        },
         'anarapp.positivo': {
             'Meta': {'object_name': 'Positivo', '_ormbases': ['anarapp.ImpresionDeManos']},
-            'caracteristicasPinturaRupestre': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['anarapp.CaracteristicasDeLaPintura']"}),
+            'caracteristicasPinturaRupestre': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['anarapp.CaracDeLaPintura']"}),
             'impresiondemanos_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['anarapp.ImpresionDeManos']", 'unique': 'True', 'primary_key': 'True'}),
             'planoAmarillo': ('django.db.models.fields.IntegerField', [], {}),
             'planoBlanco': ('django.db.models.fields.IntegerField', [], {}),
@@ -1594,8 +1697,13 @@ class Migration(SchemaMigration):
             'planoUnRojo': ('django.db.models.fields.IntegerField', [], {})
         },
         'anarapp.prospeccionsistematica': {
-            'Meta': {'object_name': 'ProspeccionSistematica', '_ormbases': ['anarapp.MecanismoObtencionInformacion']},
-            'mecanismoobtencioninformacion_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['anarapp.MecanismoObtencionInformacion']", 'unique': 'True', 'primary_key': 'True'})
+            'Meta': {'object_name': 'ProspeccionSistematica', '_ormbases': ['anarapp.MecObtInformacion']},
+            'mecobtinformacion_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['anarapp.MecObtInformacion']", 'unique': 'True', 'primary_key': 'True'})
+        },
+        'anarapp.prospsistpiedra': {
+            'Meta': {'object_name': 'ProspSistPiedra', '_ormbases': ['anarapp.MecObtInformacion']},
+            'mecobtinformacion_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['anarapp.MecObtInformacion']", 'unique': 'True', 'primary_key': 'True'}),
+            'piedra': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['anarapp.Piedra']"})
         },
         'anarapp.puntosacoplados': {
             'Meta': {'object_name': 'PuntosAcoplados', '_ormbases': ['anarapp.TipoManifestacion']},
@@ -1608,21 +1716,33 @@ class Migration(SchemaMigration):
             'materialapoyo_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['anarapp.MaterialApoyo']", 'unique': 'True', 'primary_key': 'True'}),
             'tecnica': ('django.db.models.fields.CharField', [], {'max_length': '150'})
         },
-        'anarapp.reproducciongrafica': {
-            'Meta': {'object_name': 'ReproduccionGrafica', '_ormbases': ['anarapp.MaterialApoyo']},
+        'anarapp.reprograf': {
+            'Meta': {'object_name': 'ReproGraf', '_ormbases': ['anarapp.MaterialApoyo']},
             'instituto': ('django.db.models.fields.CharField', [], {'max_length': '40'}),
             'materialapoyo_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['anarapp.MaterialApoyo']", 'unique': 'True', 'primary_key': 'True'}),
             'numPiezas': ('django.db.models.fields.IntegerField', [], {}),
             'persona': ('django.db.models.fields.CharField', [], {'max_length': '40'})
         },
-        'anarapp.reproducciongraficaescalanatural': {
-            'Meta': {'object_name': 'ReproduccionGraficaEscalaNatural', '_ormbases': ['anarapp.ReproduccionGrafica']},
-            'reproducciongrafica_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['anarapp.ReproduccionGrafica']", 'unique': 'True', 'primary_key': 'True'}),
+        'anarapp.reprografescalanatural': {
+            'Meta': {'object_name': 'ReproGrafEscalaNatural', '_ormbases': ['anarapp.ReproGraf']},
+            'reprograf_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['anarapp.ReproGraf']", 'unique': 'True', 'primary_key': 'True'}),
             'tipoReproduccion': ('django.db.models.fields.IntegerField', [], {})
         },
-        'anarapp.reproducciongraficaescalareducida': {
-            'Meta': {'object_name': 'ReproduccionGraficaEscalaReducida', '_ormbases': ['anarapp.ReproduccionGrafica']},
-            'reproducciongrafica_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['anarapp.ReproduccionGrafica']", 'unique': 'True', 'primary_key': 'True'}),
+        'anarapp.reprografescalanaturalpiedra': {
+            'Meta': {'object_name': 'ReproGrafEscalaNaturalPiedra', '_ormbases': ['anarapp.ReproGraf']},
+            'piedra': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['anarapp.Piedra']"}),
+            'reprograf_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['anarapp.ReproGraf']", 'unique': 'True', 'primary_key': 'True'}),
+            'tipoReproduccion': ('django.db.models.fields.IntegerField', [], {})
+        },
+        'anarapp.reprografescalared': {
+            'Meta': {'object_name': 'ReproGrafEscalaRed', '_ormbases': ['anarapp.ReproGraf']},
+            'reprograf_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['anarapp.ReproGraf']", 'unique': 'True', 'primary_key': 'True'}),
+            'tipoReproduccion': ('django.db.models.fields.IntegerField', [], {})
+        },
+        'anarapp.reprografescalaredpied': {
+            'Meta': {'object_name': 'ReproGrafEscalaRedPied', '_ormbases': ['anarapp.ReproGraf']},
+            'piedra': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['anarapp.Piedra']"}),
+            'reprograf_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['anarapp.ReproGraf']", 'unique': 'True', 'primary_key': 'True'}),
             'tipoReproduccion': ('django.db.models.fields.IntegerField', [], {})
         },
         'anarapp.roca': {
@@ -1674,6 +1794,16 @@ class Migration(SchemaMigration):
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'tipoSitio': ('django.db.models.fields.IntegerField', [], {})
         },
+        'anarapp.tratfotografia': {
+            'Meta': {'object_name': 'TratFotografia'},
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'limpiezaCon': ('django.db.models.fields.CharField', [], {'max_length': '40'}),
+            'otrosTratamientosFotografia': ('django.db.models.fields.CharField', [], {'max_length': '150'}),
+            'piedra': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['anarapp.Piedra']"}),
+            'programaVersion': ('django.db.models.fields.CharField', [], {'max_length': '40'}),
+            'rellenoSurcos': ('django.db.models.fields.CharField', [], {'max_length': '40'}),
+            'tratamientoDigital': ('django.db.models.fields.CharField', [], {'max_length': '40'})
+        },
         'anarapp.ubicacionyacimiento': {
             'Meta': {'object_name': 'UbicacionYacimiento'},
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
@@ -1685,18 +1815,28 @@ class Migration(SchemaMigration):
             'tipoUsoActualSuelo': ('django.db.models.fields.IntegerField', [], {})
         },
         'anarapp.verificadoencampo': {
-            'Meta': {'object_name': 'VerificadoEncampo', '_ormbases': ['anarapp.MecanismoObtencionInformacion']},
-            'mecanismoobtencioninformacion_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['anarapp.MecanismoObtencionInformacion']", 'unique': 'True', 'primary_key': 'True'})
+            'Meta': {'object_name': 'VerificadoEncampo', '_ormbases': ['anarapp.MecObtInformacion']},
+            'mecobtinformacion_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['anarapp.MecObtInformacion']", 'unique': 'True', 'primary_key': 'True'})
+        },
+        'anarapp.verificadoenpiedra': {
+            'Meta': {'object_name': 'VerificadoEnPiedra', '_ormbases': ['anarapp.MecObtInformacion']},
+            'mecobtinformacion_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['anarapp.MecObtInformacion']", 'unique': 'True', 'primary_key': 'True'}),
+            'piedra': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['anarapp.Piedra']"})
         },
         'anarapp.video': {
             'Meta': {'object_name': 'Video', '_ormbases': ['anarapp.Grabacion']},
             'grabacion_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['anarapp.Grabacion']", 'unique': 'True', 'primary_key': 'True'})
         },
+        'anarapp.videopiedra': {
+            'Meta': {'object_name': 'VideoPiedra', '_ormbases': ['anarapp.Grabacion']},
+            'grabacion_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['anarapp.Grabacion']", 'unique': 'True', 'primary_key': 'True'}),
+            'piedra': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['anarapp.Piedra']"})
+        },
         'anarapp.yacimiento': {
             'Meta': {'object_name': 'Yacimiento'},
             'altura': ('django.db.models.fields.DecimalField', [], {'max_digits': '12', 'decimal_places': '6'}),
             'datum': ('django.db.models.fields.CharField', [], {'max_length': '150'}),
-            'destruccionPotencialSitio': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['anarapp.DestruccionPotencialSitio']", 'symmetrical': 'False'}),
+            'destruccionPotencialSitio': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['anarapp.DestPotencialSitio']", 'symmetrical': 'False'}),
             'estado': ('django.db.models.fields.CharField', [], {'max_length': '150'}),
             'estadoConservacion': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['anarapp.EstadoConservacion']", 'symmetrical': 'False'}),
             'fauna': ('django.db.models.fields.CharField', [], {'max_length': '150'}),
@@ -1716,7 +1856,7 @@ class Migration(SchemaMigration):
             'manifestacionesAsociadas': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['anarapp.ManifestacionesAsociadas']", 'symmetrical': 'False'}),
             'materiales': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['anarapp.Material']", 'symmetrical': 'False'}),
             'materialesApoyo': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['anarapp.MaterialApoyo']", 'symmetrical': 'False'}),
-            'mecanismosObtencionInformacion': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['anarapp.MecanismoObtencionInformacion']", 'symmetrical': 'False'}),
+            'mecanismosObtencionInformacion': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['anarapp.MecObtInformacion']", 'symmetrical': 'False'}),
             'municipio': ('django.db.models.fields.CharField', [], {'max_length': '150'}),
             'nombre': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'numPiedrasYacimientoColocadas': ('django.db.models.fields.IntegerField', [], {}),

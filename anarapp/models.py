@@ -5,13 +5,13 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 
 # Create your models here.
 
-class MecanismoObtencionInformacion (models.Model):
+class MecObtInformacion (models.Model):
     pass
 
 
-class ProspeccionSistematica (MecanismoObtencionInformacion):
+class ProspeccionSistematica (MecObtInformacion):
     pass
-class ComunicacionPersonal (MecanismoObtencionInformacion):
+class ComunicacionPersonal (MecObtInformacion):
 
     nombre = models.CharField('14.2.1 Nombre', max_length=40)
     direccion = models.CharField('14.2.2 Direccoin', max_length=150)
@@ -24,11 +24,11 @@ class ComunicacionPersonal (MecanismoObtencionInformacion):
     blog = models.URLField('14.2.9 Blog')
     fecha = models.DateField('14.2.10 Fecha')
 
-class VerificadoEncampo (MecanismoObtencionInformacion):
+class VerificadoEncampo (MecObtInformacion):
     pass
 
 
-class DestruccionPotencialSitio (models.Model):
+class DestPotencialSitio (models.Model):
 
     POSIBLES_CAUSAS_DESTRUCCION_SITIO = (
         (1, u'Asentamiento humano'),
@@ -309,7 +309,7 @@ class Yacimiento(models.Model):
     otrasNotas = models.CharField('2.6.10 Notas', max_length = 150)
 
     estadoConservacion = models.ManyToManyField(EstadoConservacion)
-    destruccionPotencialSitio = models.ManyToManyField(DestruccionPotencialSitio)    
+    destruccionPotencialSitio = models.ManyToManyField(DestPotencialSitio)    
 
     observacionesDestruccion = models.CharField('Observaciones sobre intensidad de destruccion del sitio y otros procesos no descritos.', max_length = 150)
 
@@ -329,7 +329,7 @@ class Yacimiento(models.Model):
 
     materialesApoyo = models.ManyToManyField(MaterialApoyo)
 
-    mecanismosObtencionInformacion = models.ManyToManyField(MecanismoObtencionInformacion)
+    mecanismosObtencionInformacion = models.ManyToManyField(MecObtInformacion)
 
     otrosValoresSitio = models.CharField('Otros valores del sitio', max_length = 150)
 
@@ -403,7 +403,7 @@ class LocalidadYacimientoPoblado(LocalidadYacimiento):
 
     tipoCentroPoblado = models.IntegerField('Tipo de Centro Poblado', choices = OPCIONES_TIPO_CENTRO_POBLADO) 
 
-class LocalidadYacimientoNoPoblado(LocalidadYacimiento):
+class LocYacNoPoblado(LocalidadYacimiento):
     pass
 
 
@@ -451,7 +451,7 @@ class ImpresionDeManos(models.Model):
 
     tecnica = models.IntegerField(choices=OPCIONES_IMPRESION_MANOS)
 
-class CaracteristicasDeLaPintura(models.Model):
+class CaracDeLaPintura(models.Model):
     tecnicas = models.ManyToManyField(TecnicaPinturaRupestre)
     impresionDeManos = models.ManyToManyField(ImpresionDeManos)
     figuraRellena = models.BooleanField()
@@ -467,7 +467,7 @@ class Positivo(ImpresionDeManos):
     planoUnRojo = models.IntegerField('Plano un rojo')
     planoDosRojo = models.IntegerField('Plano dos rojos')
     planoTresRojo = models.IntegerField('Plano tres rojos')
-    caracteristicasPinturaRupestre = models.ForeignKey(CaracteristicasDeLaPintura)
+    caracteristicasPinturaRupestre = models.ForeignKey(CaracDeLaPintura)
 
 class Negativo(ImpresionDeManos):
     planoNegro = models.IntegerField('Plano negro')
@@ -476,13 +476,13 @@ class Negativo(ImpresionDeManos):
     planoUnRojo = models.IntegerField('Plano un rojo')
     planoDosRojo = models.IntegerField('Plano dos rojos')
     planoTresRojo = models.IntegerField('Plano tres rojos')
-    caracteristicasPinturaRupestre = models.ForeignKey(CaracteristicasDeLaPintura)
+    caracteristicasPinturaRupestre = models.ForeignKey(CaracDeLaPintura)
 
 
 
 class PinturaRupestre(TipoManifestacion):
     descripcion = models.CharField('Descripción', max_length = 150)
-    caracteristicas = models.ManyToManyField(CaracteristicasDeLaPintura)
+    caracteristicas = models.ManyToManyField(CaracDeLaPintura)
     
 class TecnicaPetroglifo(models.Model):
     TECNICA_PETROGLIFO = (
@@ -499,7 +499,7 @@ class TecnicaPetroglifo(models.Model):
     material = models.IntegerField(choices=TECNICA_PETROGLIFO)
     otro = models.CharField('Otra tecnica', max_length = 150)
 
-class CaracteristicasDePetroglifo(models.Model):
+class CaracDePetroglifo(models.Model):
 
     OPCIONES_CARACTERISTICAS_SURCO_PETROGLIFO = (
         (1, u'24.3 Base'),
@@ -529,7 +529,7 @@ class Petroglifo(TipoManifestacion):
 
     pintado = models.BooleanField()
     tecnicas = models.ManyToManyField(TecnicaPetroglifo)
-    caracteristicasPetroglifo = models.ManyToManyField(CaracteristicasDePetroglifo)
+    caracteristicasPetroglifo = models.ManyToManyField(CaracDePetroglifo)
 
     anchoMinimo =  models.DecimalField('24.1 Ancho Minimo', max_digits=12, decimal_places=6)
     anchoMaximo =  models.DecimalField('24.1 Ancho Maximo', max_digits=12, decimal_places=6)
@@ -622,9 +622,9 @@ class Piedra(models.Model):
     revisoFicha = models.CharField('17a. Ficha rellena por', max_length=40)
 
     # materialesApoyo = models.ManyToManyField(MaterialApoyo)
-    # mecanismosObtencionInformacion = models.ManyToManyField(MecanismoObtencionInformacion)
+    # mecanismosObtencionInformacion = models.ManyToManyField(MecObtInformacion)
 
-class TratamientoFotografia(models.Model):
+class TratFotografia(models.Model):
     
     piedra = models.ForeignKey(Piedra)
     limpiezaCon = models.CharField('12.1 Limpieza con', max_length = 40)
@@ -694,7 +694,7 @@ class CaraTrabajada(models.Model):
     
     piedra = models.ForeignKey(Piedra)
 
-class ConjuntoFiguraPorTipo(models.Model):
+class ConjFiguraPorTipo(models.Model):
 
     OPCIONES_UBICACION_CARA_TRABAJADA = (
         (1, 'Antropomorfas'),
@@ -759,7 +759,7 @@ class PeliculaPiedra (Grabacion):
         return self.titulo
 
 
-class MaterialAudiovisual (MaterialApoyo):
+class MatAudiovisual (MaterialApoyo):
 
     formato = models.CharField('13.5.1 Formato', max_length=40)
     imagen = models.CharField('13.5.2 Imagen', max_length=40)
@@ -773,7 +773,7 @@ class Bibliografia (MaterialApoyo):
     institucion  = models.CharField('13.4.2 Institucion ', max_length=40)
     conDibujo = models.BooleanField()
 
-class BibliografiaPiedra (MaterialApoyo):
+class BibPiedra (MaterialApoyo):
     piedra = models.ForeignKey(Piedra)
     codigo = models.CharField('13.4.0 Codigo', max_length=40)
     titulo = models.CharField('13.4.1 Titulo', max_length=40)
@@ -812,17 +812,17 @@ class FotografiaBibliografia (models.Model):
     bibliografia = models.ForeignKey(Bibliografia)
 
 
-class ReproduccionGrafica (MaterialApoyo):
+class ReproGraf (MaterialApoyo):
 
     numPiezas = models.IntegerField('13.2.1 Número de piezas')
     instituto  = models.CharField('13.2.2 Instituto ', max_length=40)
     persona  = models.CharField('13.2.3 Persona ', max_length=40)
 
-class ImagenReproduccionGrafica(models.Model):
+class ImagenReproGraf(models.Model):
 
-    reproduccionGrafica = models.ForeignKey(ReproduccionGrafica)
+    reproduccionGrafica = models.ForeignKey(ReproGraf)
 
-class ReproduccionGraficaEscalaNaturalPiedra(ReproduccionGrafica):
+class ReproGrafEscalaNaturalPiedra(ReproGraf):
     piedra = models.ForeignKey(Piedra)
     TIPO_REPRODUCCION_GRAFICA_ESCALA_NATURAL = (
         (1, 'Plana'),
@@ -835,8 +835,8 @@ class ReproduccionGraficaEscalaNaturalPiedra(ReproduccionGrafica):
     )
 
     tipoReproduccion = models.IntegerField('Tipo de reproduccion grafica de escala natural', choices = TIPO_REPRODUCCION_GRAFICA_ESCALA_NATURAL)
-
-class ReproduccionGraficaEscalaReducidaPiedra(ReproduccionGrafica):
+###
+class ReproGrafEscalaRedPied(ReproGraf):
     piedra = models.ForeignKey(Piedra)
     TIPO_REPRODUCCION_GRAFICA_ESCALA_REDUCIDA = (
         (1, 'Dibujo'),
@@ -845,7 +845,7 @@ class ReproduccionGraficaEscalaReducidaPiedra(ReproduccionGrafica):
 
     tipoReproduccion = models.IntegerField('Tipo de reproduccion grafica de escala reducida', choices = TIPO_REPRODUCCION_GRAFICA_ESCALA_REDUCIDA)   
 
-class ReproduccionGraficaEscalaNatural(ReproduccionGrafica):
+class ReproGrafEscalaNatural(ReproGraf):
 
     TIPO_REPRODUCCION_GRAFICA_ESCALA_NATURAL = (
         (1, 'Plana'),
@@ -859,7 +859,7 @@ class ReproduccionGraficaEscalaNatural(ReproduccionGrafica):
 
     tipoReproduccion = models.IntegerField('Tipo de reproduccion grafica de escala natural', choices = TIPO_REPRODUCCION_GRAFICA_ESCALA_NATURAL)
 
-class ReproduccionGraficaEscalaReducida(ReproduccionGrafica):
+class ReproGrafEscalaRed(ReproGraf):
 
     TIPO_REPRODUCCION_GRAFICA_ESCALA_REDUCIDA = (
         (1, 'Dibujo'),
@@ -887,11 +887,11 @@ class FotografiaPiedra (MaterialApoyo):
     numCopiaAnar = models.IntegerField('13.1.8.1 Num Copia ANAR')
     tipoFotografia = models.IntegerField('Tipo fotografia', choices = TIPO_FOTOGRAFIA)
 
-class ProspeccionSistematicaPiedra (MecanismoObtencionInformacion):
+class ProspSistPiedra (MecObtInformacion):
     piedra = models.ForeignKey(Piedra)
 
 
-class ComunicacionPersonalPiedra (MecanismoObtencionInformacion):
+class ComunicacionPersonalPiedras (MecObtInformacion):
 
     nombre = models.CharField('14.2.1 Nombre', max_length=40)
     direccion = models.CharField('14.2.2 Direccoin', max_length=150)
@@ -906,5 +906,5 @@ class ComunicacionPersonalPiedra (MecanismoObtencionInformacion):
 
     piedra = models.ForeignKey(Piedra)
 
-class VerificadoEnPiedra(MecanismoObtencionInformacion):
+class VerificadoEnPiedra(MecObtInformacion):
     piedra = models.ForeignKey(Piedra)
