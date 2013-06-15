@@ -1,6 +1,6 @@
 #coding: latin-1
 from nested_inlines.admin import NestedModelAdmin, NestedStackedInline, NestedTabularInline
-from anarapp.models import Yacimiento, Piedra,CaraTrabajada,ConjuntoFiguraPorTipo, TratamientoFotografia,FotografiaPiedra, ReproduccionGraficaEscalaNaturalPiedra, ReproduccionGraficaEscalaReducidaPiedra,BibliografiaPiedra
+from anarapp.models import Yacimiento, Piedra,CaraTrabajada,ConjFiguraPorTipo, TratFotografia,FotografiaPiedra, ReproGrafEscalaNaturalPiedra, ReproGrafEscalaRedPied,BibPiedra
 
 from django.contrib import admin
 from forms import YacimientoForm
@@ -17,30 +17,30 @@ class YacimientoAdmin(admin.ModelAdmin):
    
 #     list_display = ('nombre','latitud','longitud')
 
-class BibliografiaPiedraInline(NestedTabularInline):
+class BibPiedraInline(NestedTabularInline):
     extra = 1
-    model =  BibliografiaPiedra
+    model =  BibPiedra
 
 class ReproduccionGraficaEscalaReducidaInlinePiedra(NestedTabularInline):
     extra = 1
-    model =  ReproduccionGraficaEscalaReducidaPiedra
+    model =  ReproGrafEscalaRedPied
 
 class ReproduccionGraficaEscalaNaturalInlinePiedra(NestedTabularInline):
     extra = 1
-    model =  ReproduccionGraficaEscalaNaturalPiedra
+    model =  ReproGrafEscalaNaturalPiedra
         
 class FotografiaInline(NestedTabularInline):
     extra = 1
     model =  FotografiaPiedra
 
-class TratamientoFotografiaInline(NestedTabularInline):
+class TratFotografiaInline(NestedTabularInline):
     extra = 1
     maximun = 1
-    model =  TratamientoFotografia
+    model =  TratFotografia
 
 class SeccionTrabajadaInline(NestedTabularInline):
     extra = 1
-    model =  ConjuntoFiguraPorTipo
+    model =  ConjFiguraPorTipo
 
 class CaraTrabajadaInline(NestedStackedInline):
     model = CaraTrabajada
@@ -50,7 +50,7 @@ class CaraTrabajadaInline(NestedStackedInline):
 
 class PiedraAdmin (NestedModelAdmin):
     model = Piedra
-    inlines = [CaraTrabajadaInline, TratamientoFotografiaInline,FotografiaInline,ReproduccionGraficaEscalaReducidaInlinePiedra,ReproduccionGraficaEscalaNaturalInlinePiedra,BibliografiaPiedraInline]
+    inlines = [CaraTrabajadaInline, TratFotografiaInline,FotografiaInline,ReproduccionGraficaEscalaReducidaInlinePiedra,ReproduccionGraficaEscalaNaturalInlinePiedra,BibPiedraInline]
     # fields = ('inlines','codigo')
 
 admin.site.register(Yacimiento, YacimientoAdmin)
