@@ -1,9 +1,11 @@
 #coding: latin-1
+from django import forms
 from nested_inlines.admin import NestedModelAdmin, NestedStackedInline, NestedTabularInline
-from anarapp.models import Yacimiento, Piedra,CaraTrabajada,ConjuntoFiguraPorTipo, TratamientoFotografia,FotografiaPiedra, ReproduccionGraficaEscalaNaturalPiedra, ReproduccionGraficaEscalaReducidaPiedra,BibliografiaPiedra
-
+from anarapp.models import Yacimiento, Piedra,CaraTrabajada,ConjFiguraPorTipo, TratFotografia,FotografiaPiedra, ReproGrafEscalaNaturalPiedra, \
+    ReproGrafEscalaRedPied,BibPiedra, DimensionPiedra
 from django.contrib import admin
 from forms import YacimientoForm
+
 class YacimientoAdmin(admin.ModelAdmin):
     form = YacimientoForm
 
@@ -17,30 +19,30 @@ class YacimientoAdmin(admin.ModelAdmin):
    
 #     list_display = ('nombre','latitud','longitud')
 
-class BibliografiaPiedraInline(NestedTabularInline):
+class BibPiedraInline(NestedTabularInline):
     extra = 1
-    model =  BibliografiaPiedra
+    model =  BibPiedra
 
 class ReproduccionGraficaEscalaReducidaInlinePiedra(NestedTabularInline):
     extra = 1
-    model =  ReproduccionGraficaEscalaReducidaPiedra
+    model =  ReproGrafEscalaRedPied
 
 class ReproduccionGraficaEscalaNaturalInlinePiedra(NestedTabularInline):
     extra = 1
-    model =  ReproduccionGraficaEscalaNaturalPiedra
+    model =  ReproGrafEscalaNaturalPiedra
         
 class FotografiaInline(NestedTabularInline):
     extra = 1
     model =  FotografiaPiedra
 
-class TratamientoFotografiaInline(NestedTabularInline):
+class TratFotografiaInline(NestedTabularInline):
     extra = 1
-    maximun = 1
-    model =  TratamientoFotografia
+#    max_num = 1
+    model =  TratFotografia
 
 class SeccionTrabajadaInline(NestedTabularInline):
     extra = 1
-    model =  ConjuntoFiguraPorTipo
+    model =  ConjFiguraPorTipo
 
 class CaraTrabajadaInline(NestedStackedInline):
     model = CaraTrabajada
@@ -48,10 +50,18 @@ class CaraTrabajadaInline(NestedStackedInline):
     extra = 1
     inlines = [SeccionTrabajadaInline]
 
+class DimensionPiedraInline(NestedTabularInline):
+    extra = 1
+    max_num = 1
+    has_delete_permission = False
+    model =  DimensionPiedra
+
+    
+
 class PiedraAdmin (NestedModelAdmin):
     model = Piedra
-    inlines = [CaraTrabajadaInline, TratamientoFotografiaInline,FotografiaInline,ReproduccionGraficaEscalaReducidaInlinePiedra,ReproduccionGraficaEscalaNaturalInlinePiedra,BibliografiaPiedraInline]
-    # fields = ('inlines','codigo')
+    inlines = [DimensionPiedraInline, CaraTrabajadaInline, TratFotografiaInline,FotografiaInline,ReproduccionGraficaEscalaReducidaInlinePiedra,ReproduccionGraficaEscalaNaturalInlinePiedra,BibPiedraInline]
+    
 
 admin.site.register(Yacimiento, YacimientoAdmin)
 admin.site.register(Piedra,PiedraAdmin)

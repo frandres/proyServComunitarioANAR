@@ -605,11 +605,8 @@ class Piedra(models.Model):
     nombreFiguras = models.CharField('2. Nombre de las figuras',max_length=150)
     estado= models.CharField('3. Estado',max_length=40)
     
-    numeroCaras = models.IntegerField('Numero de Caras')
-    numeroCarasTrajabadas = models.IntegerField('Numero de caras trabajadas')
-    altoMaximo =  models.DecimalField('7.a Alto Maximo', max_digits=12, decimal_places=6)
-    largoMaximo = models.DecimalField('7.b Largo Maximo',max_digits=12, decimal_places=6)
-    anchoMaximo = models.DecimalField('7.c Ancho Maximo',max_digits=12, decimal_places=6)
+    numeroCaras = models.IntegerField('4. Numero de Caras')
+    numeroCarasTrajabadas = models.IntegerField('5. Numero de caras trabajadas')
     otrosValoresDeLaPiedra = models.CharField('15. Otros valores de la piedra',max_length=150)
     observaciones = models.CharField('16. Observaciones',max_length=150)
     
@@ -624,6 +621,17 @@ class Piedra(models.Model):
     # materialesApoyo = models.ManyToManyField(MaterialApoyo)
     # mecanismosObtencionInformacion = models.ManyToManyField(MecObtInformacion)
 
+class DimensionPiedra(models.Model):
+
+    piedra = models.ForeignKey(Piedra)
+    altoMaximo =  models.DecimalField('7.a Alto Maximo', max_digits=12, decimal_places=6)
+    largoMaximo = models.DecimalField('7.b Largo Maximo',max_digits=12, decimal_places=6)
+    anchoMaximo = models.DecimalField('7.c Ancho Maximo',max_digits=12, decimal_places=6)
+    
+    class Meta:
+        verbose_name = '7. Dimensiones de la piedra'
+        verbose_name_plural = '7. Dimensiones de la piedra'
+
 class TratFotografia(models.Model):
     
     piedra = models.ForeignKey(Piedra)
@@ -632,7 +640,6 @@ class TratFotografia(models.Model):
     tratamientoDigital = models.CharField('12.3 Tratamiento digital', max_length = 40)
     programaVersion = models.CharField('12.4 Programa/versión', max_length = 40)
     otrosTratamientosFotografia = models.CharField('12.5 Otros tratamientos fotografía:', max_length = 150)
-
 
 class CaraTrabajada(models.Model):
 
@@ -716,6 +723,11 @@ class ConjFiguraPorTipo(models.Model):
     descripcion = models.CharField('9.c Descripcion',max_length=150) 
     # posicion = models.CharField('9.c Posicion de las figuras',max_length=150) 
     cara = models.ForeignKey(CaraTrabajada)
+
+    class Meta:
+        verbose_name = 'Conjunto de Figuras por Tipo'
+        verbose_name_plural = 'Conjuntos de Figuras por tipo'
+    
 
 class RecursoMultimedia (MaterialApoyo):
 
