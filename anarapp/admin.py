@@ -52,11 +52,8 @@ class CaraTrabajadaInline(NestedStackedInline):
 
 class DimensionPiedraInline(NestedTabularInline):
     extra = 1
-    max_num = 1
-    has_delete_permission = False
+    max_num = 1    
     model =  DimensionPiedra
-
-    
 
 class PiedraAdmin (NestedModelAdmin):
     model = Piedra
