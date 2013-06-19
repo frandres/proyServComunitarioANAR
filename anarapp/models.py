@@ -924,7 +924,17 @@ class FotoBibPiedra (MatApoyoPiedra):
     class Meta:
         verbose_name = 'Bibliografía fotográfica'
         verbose_name_plural = '13.4.6. Bibliografía fotográfica'
- 
+
+
+class MatAudioVisual (MatApoyoPiedra):
+
+    formato = models.CharField('13.5.1. Formato', max_length=40)
+    imagen = models.CharField('13.5.2. Imagen', max_length=40, blank = True)
+    
+    class Meta:
+        verbose_name = 'Material audiovisual'
+        verbose_name_plural = '13.5. Material audiovisual'
+
 ########################################################################################
 # Fin Diagrama de piedra 
 ########################################################################################
@@ -971,10 +981,6 @@ class PeliculaPiedra (Grabacion):
         return self.titulo
 
 
-class MatAudiovisual (MaterialApoyo):
-
-    formato = models.CharField('13.5.1 Formato', max_length=40)
-    imagen = models.CharField('13.5.2 Imagen', max_length=40)
 
 
 

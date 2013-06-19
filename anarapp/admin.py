@@ -4,7 +4,7 @@ from nested_inlines.admin import NestedModelAdmin, NestedStackedInline, NestedTa
 from anarapp.models import Yacimiento, Piedra,CaraTrabajada, FigurasPorTipo, TratFoto, \
     InfoFoto, FotoDigital, BibPiedra, FotoBibPiedra, \
     DimensionPiedra, Manifestaciones, FichaPiedra, UbicacionCaras, EsquemaPorCara, \
-    EscalaNatPiedra, EscalaRedPiedra
+    EscalaNatPiedra, EscalaRedPiedra, MatAudioVisual
 from django.contrib import admin
 from forms import YacimientoForm
 
@@ -94,6 +94,11 @@ class FichaPiedraInline(NestedStackedInline):
     extra = 1
     max_num = 1    
     model =  FichaPiedra
+
+class MatAudioVisualInline(NestedStackedInline):
+    extra = 1
+    max_num = 1    
+    model =  MatAudioVisual
     
 class PiedraAdmin (NestedModelAdmin):
     model = Piedra
@@ -104,6 +109,7 @@ class PiedraAdmin (NestedModelAdmin):
                TratFotoInline, InfoFotoInline, FotoDigitalInline,
                EscalaNatPiedraInline, EscalaRedPiedraInline,
                BibPiedraInline, FotoBibPiedraInline,
+               MatAudioVisualInline,
                FichaPiedraInline]
 
 ###############################################
