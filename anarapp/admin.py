@@ -2,9 +2,9 @@
 from django import forms
 from nested_inlines.admin import NestedModelAdmin, NestedStackedInline, NestedTabularInline
 from anarapp.models import Yacimiento, Piedra,CaraTrabajada, FigurasPorTipo, TratFoto, \
-    InfoFoto, FotoDigital, BibPiedra, FotoBibPiedra, \
+    InfoFoto, FotoPiedra, BibPiedra, FotoBibPiedra, \
     DimensionPiedra, Manifestaciones, FichaPiedra, UbicacionCaras, EsquemaPorCara, \
-    EscalaNatPiedra, EscalaRedPiedra, MatAudioVisual
+    EscNatPiedra, EscRedPiedra, MatAVPiedra
 from django.contrib import admin
 from forms import YacimientoForm
 
@@ -68,17 +68,17 @@ class InfoFotoInline(NestedStackedInline):
     max_num = 1  
     model =  InfoFoto
 
-class FotoDigitalInline(NestedTabularInline):
+class FotoDigPiedraInline(NestedTabularInline):
     extra = 1
-    model =  FotoDigital
+    model =  FotoPiedra
 
 class EscalaNatPiedraInline(NestedTabularInline):
     extra = 1
-    model =  EscalaNatPiedra
+    model =  EscNatPiedra
 
 class EscalaRedPiedraInline(NestedTabularInline):
     extra = 1
-    model =  EscalaRedPiedra
+    model =  EscRedPiedra
 
 class BibPiedraInline(NestedStackedInline):
     extra = 1
@@ -98,7 +98,7 @@ class FichaPiedraInline(NestedStackedInline):
 class MatAudioVisualInline(NestedStackedInline):
     extra = 1
     max_num = 1    
-    model =  MatAudioVisual
+    model =  MatAVPiedra
     
 class PiedraAdmin (NestedModelAdmin):
     model = Piedra
@@ -106,7 +106,7 @@ class PiedraAdmin (NestedModelAdmin):
                UbicacionCarasInline, FigurasPorTipoInline,
                EsquemaPorCaraInline,
                ManifestacionesInline,
-               TratFotoInline, InfoFotoInline, FotoDigitalInline,
+               TratFotoInline, InfoFotoInline, FotoDigPiedraInline,
                EscalaNatPiedraInline, EscalaRedPiedraInline,
                BibPiedraInline, FotoBibPiedraInline,
                MatAudioVisualInline,
