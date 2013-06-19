@@ -5,29 +5,6 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 
 # Definición de los modelos 
 
-class MecObtInformacion (models.Model):
-    pass
-
-class ProspeccionSistematica (MecObtInformacion):
-    pass
-
-class ComunicacionPersonal (MecObtInformacion):
-
-    nombre = models.CharField('14.2.1 Nombre', max_length=40)
-    direccion = models.CharField('14.2.2 Direccoin', max_length=150)
-    telefono = models.CharField('14.2.3 Telefono/Fax', max_length=16)
-    telefonoCel = models.CharField('14.2.3 Telefono celular', max_length=16)
-    direccionEmail = models.EmailField('14.2.5 Correo electrónico')
-    paginaWeb = models.URLField('14.2.6 Pagina WEB')
-    twitter = models.CharField('14.2.7 Twitter', max_length=40)
-    nombreFacebook = models.CharField('14.2.8 Nombre de Perfil Facebook', max_length=40)
-    blog = models.URLField('14.2.9 Blog')
-    fecha = models.DateField('14.2.10 Fecha')
-
-class VerificadoEncampo (MecObtInformacion):
-    pass
-
-
 class DestPotencialSitio (models.Model):
 
     POSIBLES_CAUSAS_DESTRUCCION_SITIO = (
@@ -308,7 +285,7 @@ class Yacimiento(models.Model):
 
     #materialesApoyo = models.ManyToManyField(MaterialApoyo, blank=True)
 
-    mecanismosObtencionInformacion = models.ManyToManyField(MecObtInformacion, blank=True)
+    #mecanismosObtencionInformacion = models.ManyToManyField(MecObtInformacion, blank=True)
 
     otrosValoresSitio = models.CharField('Otros valores del sitio', max_length = 150)
 
@@ -993,30 +970,30 @@ class MultimediaPiedra (Multimedia):
         verbose_name_plural = '13.9. Multimedia'
 
 
+class ObtencionInfo (models.Model):
+
+    prospeccion = models.BooleanField('1. Prospección sistemática')
+    comunicacion = models.BooleanField('2. Comunicación personal')
+    nombre = models.CharField('2.1. Nombre', max_length=100)
+    direccion = models.CharField('2.2. Dirección', max_length=200, blank = True)
+    telefono = models.CharField('2.3. Telefono/Fax', max_length=40, blank = True)
+    telefonoCel = models.CharField('2.4. Telefono celular', max_length=40, blank = True)
+    direccionEmail = models.EmailField('2.5. Correo electrónico', blank = True)
+    paginaWeb = models.URLField('2.6. Página Web', blank = True)
+    twitter = models.CharField('2.7. Twitter', max_length=40, blank = True)
+    nombreFacebook = models.CharField('2.8. Perfil Facebook', max_length=40, blank = True)
+    blog = models.URLField('2.9. Blog', blank = True)
+    fecha = models.DateField('2.10 Fecha')
+    verificado = models.BooleanField('2.3. Verificado en el campo')
+
+class ObtInfoPiedra (ObtencionInfo):
+
+    piedra = models.ForeignKey(Piedra)
+    class Meta:
+        verbose_name = 'Información obtenida por'
+        verbose_name_plural = '14. Información obtenida por'
+    
+    
 ########################################################################
 # Fin multimedia
 ########################################################################################
-
-
-
-class ProspSistPiedra (MecObtInformacion):
-    piedra = models.ForeignKey(Piedra)
-
-
-class ComunicacionPersonalPiedras (MecObtInformacion):
-
-    nombre = models.CharField('14.2.1 Nombre', max_length=40)
-    direccion = models.CharField('14.2.2 Direccoin', max_length=150)
-    telefono = models.CharField('14.2.3 Telefono/Fax', max_length=16)
-    telefonoCel = models.CharField('14.2.3 Telefono celular', max_length=16)
-    direccionEmail = models.EmailField('14.2.5 Correo electrÃ³nico')
-    paginaWeb = models.URLField('14.2.6 Pagina WEB')
-    twitter = models.CharField('14.2.7 Twitter', max_length=40)
-    nombreFacebook = models.CharField('14.2.8 Nombre de Perfil Facebook', max_length=40)
-    blog = models.URLField('14.2.9 Blog')
-    fecha = models.DateField('14.2.10 Fecha')
-
-    piedra = models.ForeignKey(Piedra)
-
-class VerificadoEnPiedra(MecObtInformacion):
-    piedra = models.ForeignKey(Piedra)

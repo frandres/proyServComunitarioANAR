@@ -5,7 +5,7 @@ from anarapp.models import Yacimiento, Piedra,CaraTrabajada, FigurasPorTipo, Tra
     InfoFoto, FotoPiedra, BibPiedra, FotoBibPiedra, \
     DimensionPiedra, Manifestaciones, FichaPiedra, UbicacionCaras, EsquemaPorCara, \
     EscNatPiedra, EscRedPiedra, MatAVPiedra, VideoPiedra, PeliculaPiedra, PaginaWebPiedra, \
-    MultimediaPiedra
+    MultimediaPiedra, ObtInfoPiedra
 from django.contrib import admin
 from forms import YacimientoForm
 
@@ -120,7 +120,12 @@ class MultimediaPiedraInline(NestedStackedInline):
     extra = 1
     max_num = 1    
     model =  MultimediaPiedra
-        
+
+class ObtInfoPiedraInline(NestedStackedInline):
+    extra = 1
+    max_num = 1    
+    model =  ObtInfoPiedra
+            
 class PiedraAdmin (NestedModelAdmin):
     model = Piedra
     inlines = [CaraTrabajadaInline, DimensionPiedraInline,
@@ -131,7 +136,7 @@ class PiedraAdmin (NestedModelAdmin):
                EscalaNatPiedraInline, EscalaRedPiedraInline,
                BibPiedraInline, FotoBibPiedraInline,
                MatAudioVisualInline, VideoPiedraInline, PeliculaPiedraInline,
-               PaginaWebPiedraInline, MultimediaPiedraInline,FichaPiedraInline]
+               PaginaWebPiedraInline, MultimediaPiedraInline, ObtInfoPiedraInline, FichaPiedraInline]
 
 ###############################################
 #### Fin admin de piedras
