@@ -1,9 +1,10 @@
 #coding: latin-1
 from django import forms
 from nested_inlines.admin import NestedModelAdmin, NestedStackedInline, NestedTabularInline
-from anarapp.models import Yacimiento, Piedra,CaraTrabajada,ConjFiguraPorTipo, TratFotografia, \
-    FotografiaPiedra, ReproGrafEscalaNaturalPiedra, ReproGrafEscalaRedPied,BibPiedra, \
-    DimensionPiedra, ManifestacionesPiedra, FichaPiedra, UbicacionCarasTrabajadas, EsquemaPorCara
+from anarapp.models import Yacimiento, Piedra,CaraTrabajada, FigurasPorTipo, TratFoto, \
+    InfoFoto, FotoDigital, BibPiedra, FotoBibPiedra, \
+    DimensionPiedra, Manifestaciones, FichaPiedra, UbicacionCaras, EsquemaPorCara, \
+    EscalaNatPiedra, EscalaRedPiedra
 from django.contrib import admin
 from forms import YacimientoForm
 
@@ -20,42 +21,26 @@ class YacimientoAdmin(admin.ModelAdmin):
    
 #     list_display = ('nombre','latitud','longitud')
 
-class BibPiedraInline(NestedTabularInline):
-    extra = 1
-    model =  BibPiedra
 
-class ReproduccionGraficaEscalaReducidaInlinePiedra(NestedTabularInline):
-    extra = 1
-    model =  ReproGrafEscalaRedPied
-
-class ReproduccionGraficaEscalaNaturalInlinePiedra(NestedTabularInline):
-    extra = 1
-    model =  ReproGrafEscalaNaturalPiedra
+###############################################
+#### Admin de piedras - Inlines 
+##############################################
         
-class FotografiaInline(NestedTabularInline):
-    extra = 1
-    model =  FotografiaPiedra
-
 class DimensionPiedraInline(NestedStackedInline):
     extra = 1
     max_num = 1    
     model =  DimensionPiedra
 
-class ManifestacionesPiedraInline(NestedStackedInline):
+class ManifestacionesInline(NestedStackedInline):
     extra = 1
     max_num = 1
     display_at_top = False
-    model =  ManifestacionesPiedra
+    model =  Manifestaciones
 
-class FichaPiedraInline(NestedStackedInline):
-    extra = 1
-    max_num = 1    
-    model =  FichaPiedra
-
-class ConjFiguraPorTipoInline(NestedTabularInline):
+class FigurasPorTipoInline(NestedTabularInline):
     extra = 1
     max_num = 60  
-    model =  ConjFiguraPorTipo
+    model =  FigurasPorTipo
 
 class EsquemaPorCaraInline(NestedTabularInline):
     extra = 1
@@ -68,26 +53,63 @@ class CaraTrabajadaInline(NestedTabularInline):
     max_num = 6
     model = CaraTrabajada
 
-class UbicacionCarasTrabajadasInline(NestedStackedInline):
-    model = UbicacionCarasTrabajadas
+class UbicacionCarasInline(NestedStackedInline):
     extra = 1
-    max_num = 1   
+    max_num = 1
+    model = UbicacionCaras
 
-class TratFotografiaInline(NestedStackedInline):
+class TratFotoInline(NestedStackedInline):
     extra = 1
     max_num = 1  
-    model =  TratFotografia
+    model =  TratFoto
+
+class InfoFotoInline(NestedStackedInline):
+    extra = 1
+    max_num = 1  
+    model =  InfoFoto
+
+class FotoDigitalInline(NestedTabularInline):
+    extra = 1
+    model =  FotoDigital
+
+class EscalaNatPiedraInline(NestedTabularInline):
+    extra = 1
+    model =  EscalaNatPiedra
+
+class EscalaRedPiedraInline(NestedTabularInline):
+    extra = 1
+    model =  EscalaRedPiedra
+
+class BibPiedraInline(NestedStackedInline):
+    extra = 1
+    max_num = 1
+    model =  BibPiedra
+
+class FotoBibPiedraInline(NestedStackedInline):
+    extra = 1
+    max_num = 1
+    model =  FotoBibPiedra
+
+class FichaPiedraInline(NestedStackedInline):
+    extra = 1
+    max_num = 1    
+    model =  FichaPiedra
     
 class PiedraAdmin (NestedModelAdmin):
     model = Piedra
-    inlines = [DimensionPiedraInline,  CaraTrabajadaInline,
-               UbicacionCarasTrabajadasInline, ConjFiguraPorTipoInline,
-               EsquemaPorCaraInline, 
-               ManifestacionesPiedraInline,
-               TratFotografiaInline,FotografiaInline,
-               ReproduccionGraficaEscalaReducidaInlinePiedra,
-               ReproduccionGraficaEscalaNaturalInlinePiedra,
-               BibPiedraInline, FichaPiedraInline]
+    inlines = [CaraTrabajadaInline, DimensionPiedraInline,
+               UbicacionCarasInline, FigurasPorTipoInline,
+               EsquemaPorCaraInline,
+               ManifestacionesInline,
+               TratFotoInline, InfoFotoInline, FotoDigitalInline,
+               EscalaNatPiedraInline, EscalaRedPiedraInline,
+               BibPiedraInline, FotoBibPiedraInline,
+               FichaPiedraInline]
+
+###############################################
+#### Fin admin de piedras
+##############################################
+    
     
 admin.site.register(Yacimiento, YacimientoAdmin)
 admin.site.register(Piedra,PiedraAdmin)
