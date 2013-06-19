@@ -4,7 +4,8 @@ from nested_inlines.admin import NestedModelAdmin, NestedStackedInline, NestedTa
 from anarapp.models import Yacimiento, Piedra,CaraTrabajada, FigurasPorTipo, TratFoto, \
     InfoFoto, FotoPiedra, BibPiedra, FotoBibPiedra, \
     DimensionPiedra, Manifestaciones, FichaPiedra, UbicacionCaras, EsquemaPorCara, \
-    EscNatPiedra, EscRedPiedra, MatAVPiedra
+    EscNatPiedra, EscRedPiedra, MatAVPiedra, VideoPiedra, PeliculaPiedra, PaginaWebPiedra, \
+    MultimediaPiedra
 from django.contrib import admin
 from forms import YacimientoForm
 
@@ -68,8 +69,9 @@ class InfoFotoInline(NestedStackedInline):
     max_num = 1  
     model =  InfoFoto
 
-class FotoDigPiedraInline(NestedTabularInline):
+class FotoDigPiedraInline(NestedStackedInline):
     extra = 1
+    max_num = 1
     model =  FotoPiedra
 
 class EscalaNatPiedraInline(NestedTabularInline):
@@ -99,7 +101,26 @@ class MatAudioVisualInline(NestedStackedInline):
     extra = 1
     max_num = 1    
     model =  MatAVPiedra
-    
+
+class VideoPiedraInline(NestedStackedInline):
+    extra = 1
+    max_num = 1  
+    model =  VideoPiedra
+
+class PeliculaPiedraInline(NestedStackedInline):
+    extra = 1
+    max_num = 1    
+    model =  PeliculaPiedra
+
+class PaginaWebPiedraInline(NestedTabularInline):
+    extra = 1 
+    model =  PaginaWebPiedra
+
+class MultimediaPiedraInline(NestedStackedInline):
+    extra = 1
+    max_num = 1    
+    model =  MultimediaPiedra
+        
 class PiedraAdmin (NestedModelAdmin):
     model = Piedra
     inlines = [CaraTrabajadaInline, DimensionPiedraInline,
@@ -109,8 +130,8 @@ class PiedraAdmin (NestedModelAdmin):
                TratFotoInline, InfoFotoInline, FotoDigPiedraInline,
                EscalaNatPiedraInline, EscalaRedPiedraInline,
                BibPiedraInline, FotoBibPiedraInline,
-               MatAudioVisualInline,
-               FichaPiedraInline]
+               MatAudioVisualInline, VideoPiedraInline, PeliculaPiedraInline,
+               PaginaWebPiedraInline, MultimediaPiedraInline,FichaPiedraInline]
 
 ###############################################
 #### Fin admin de piedras

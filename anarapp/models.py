@@ -820,18 +820,18 @@ class Foto (MaterialApoyo):
         (3, 'Satelital'),
     )
 
-    fecha = models.DateField('13.1.1. Fecha')
-    fotografo  = models.CharField('13.2.3. Fotografo ', max_length=40)
-    institucion  = models.CharField('13.2.3 Institucion ', max_length=40)
-    fotografia  = models.CharField('Fotografia', max_length=40)
-    numReferencia = models.IntegerField('13.1.4 Num Referencia')
-    numRollo = models.IntegerField('13.1.5 Nro. de rollo')
-    numMarcaNegativo = models.IntegerField('13.1.6 Num Marca Negativo')
-    esDeAnar = models.BooleanField('13.1.8 ¿Es de Anar?')
-    numCopiaAnar = models.IntegerField('13.1.8.1 Num Copia ANAR')
-    tipoFotografia = models.IntegerField('Tipo fotografia', choices = TIPO_FOTOGRAFIA)
+    negativo =  models.CharField('0a. Negativo', max_length=40)
+    tipoFotografia = models.IntegerField('0b. Tipo fotografia', choices = TIPO_FOTOGRAFIA)
+    fecha = models.DateField('1. Fecha')
+    fotografo  = models.CharField('2. Fotógrafo', max_length=100)
+    institucion  = models.CharField('3. Institucion ', max_length=100)
+    numReferencia = models.CharField('4. Nro. de referencia', max_length=100)
+    numRollo = models.CharField('5. Nro. de rollo', max_length=100)
+    numFoto = models.CharField('6. Nro. de foto', max_length=100)
+    numMarcaNegativo = models.CharField('7. Nro. marca en negativo', max_length=100)
+    esDeAnar = models.BooleanField('8. ¿Es de Anar?')
+    numCopiaAnar = models.IntegerField('8.1. Num Copia ANAR')
     
-
 class FotoPiedra (Foto):
 
     piedra = models.ForeignKey(Piedra)
@@ -985,7 +985,7 @@ class Multimedia (MaterialApoyo):
 
     tecnica = models.CharField('1. Técnica', max_length=150)
 
-class MultimediaPiedra (MaterialApoyo):
+class MultimediaPiedra (Multimedia):
 
     piedra = models.ForeignKey(Piedra)
     class Meta:
