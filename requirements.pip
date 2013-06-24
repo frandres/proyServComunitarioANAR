@@ -1,4 +1,5 @@
 -e git+git://github.com/Soaa-/django-nested-inlines.git#egg=django-nested-inlines
+Pil==1.1.7
 psycopg2==2.4.5
 South
 Django==1.4.2
